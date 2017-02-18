@@ -12,18 +12,19 @@ var charArray = [new Character("First", 180, 25, 45), new Character("Second", 18
 $(document).ready(function(){
 
   for(var i = 0; i < charArray.length; i++){
-    // Create container for Character
-    var charItem =  $("<li>");
 
-    // Create data variables for Characters
-    charItem.attr("class", "character");
-    charItem.attr("data-name", charArray[i].name);
-    charItem.attr("data-hp", charArray[i].hp);
-    charItem.attr("data-attack", charArray[i].attack);
-    charItem.attr("data-counter", charArray[i].counter);
+    // Create container for Character
+
+    var charItem =  $("<li class='character'>");
+    charItem.attr("id", i+1);
+
+    for (var item in charArray[i]){
+      charItem.attr("data-" + item.toString(), charArray[i][item]);
+    }
 
     // Place values in the container
     charItem.append($("<p class='text-center'>").text(charArray[i].name));
+
     // TODO: Add image with .img-responsive
     charItem.append($("<p class='text-center'>").text("HP:" + charArray[i].hp + " Atk:" + charArray[i].attack + " Ctr:" + charArray[i].counter));
 
