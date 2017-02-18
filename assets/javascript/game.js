@@ -16,19 +16,13 @@ $(document).ready(function(){
 
   for(var i = 0; i < charArray.length; i++){
 
-    // Create container for Character
-
     var charItem =  $("<li class='character'>");
     charItem.attr("id", i+1);
 
     for (var item in charArray[i]){
-
-      // TODO: Possibly could Use HasOwnPropety to verify???
-
       charItem.attr("data-" + item.toString(), charArray[i][item]);
     }
 
-    // Place values in the container
     charItem.append($("<p class='text-center'>").text(charArray[i].name));
 
     // TODO: Add image with .img-responsive
@@ -39,20 +33,17 @@ $(document).ready(function(){
 
   $(".character").on("click", function(){
     playerChar = $(this);
-    $(".player-character-container").append(playerChar);
 
-    $(playerChar).attr("class", "player-character");
+    if (playerChar.attr("class") != "enemies enemy-characters"){
+      $(playerChar).attr("class", "player-character");
+      $(".player-character-container").append(playerChar);
+      charArray.splice(parseInt(playerChar.attr('id')) - 1, 1);
+    }
 
-    //TODO: Possible better solution ?? ==> var elementPos = array.map(function(x) {return x.id; }).indexOf(idYourAreLookingFor);
+    // TODO: Enemies Logic
+    $(".character").attr("class", "enemies enemy-characters");
 
-    charArray.splice(parseInt(playerChar.attr('id')) - 1, 1);
-
-    //Handle enemies
-
-    $(".character").attr("class", "character enemy-characters");
-
-
-  })
+  });
 
 
 

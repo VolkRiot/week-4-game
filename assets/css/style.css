@@ -5,3 +5,8 @@
 .player-character{
     border: 2px blue solid;
 }
+
+.enemies{
+    border: 2px solid red;
+    margin: 10px;
+}
