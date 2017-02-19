@@ -7,8 +7,9 @@ function Character(name, hp, attack, counter) {
   // this.imgpath = "assets/images/" + imgpath;
 }
 
-var playerChar;
+var $playerChar;
 var enemies = [];
+var $instructionsParag = $("#instructions");
 
 var charArray = [new Character("First", 180, 25, 45), new Character("Second", 180, 25, 45), new Character("Third", 180, 25, 45), new Character("Fourth", 180, 10, 45)];
 
@@ -26,22 +27,20 @@ $(document).ready(function(){
     charItem.append($("<p class='text-center'>").text(charArray[i].name));
 
     // TODO: Add image with .img-responsive
-    charItem.append($("<p class='text-center'>").text("HP:" + charArray[i].hp + " Atk:" + charArray[i].attack + " Ctr:" + charArray[i].counter));
 
+    charItem.append($("<p class='text-center'>").text("HP:" + charArray[i].hp + " Atk:" + charArray[i].attack + " Ctr:" + charArray[i].counter));
     $("#characters-list").append(charItem);
   }
 
   $(".character").on("click", function(){
-    playerChar = $(this);
+    $playerChar = $(this);
 
-    if (playerChar.attr("class") != "enemies enemy-characters"){
-      $(playerChar).attr("class", "player-character");
-      $(".player-character-container").append(playerChar);
-      charArray.splice(parseInt(playerChar.attr('id')) - 1, 1);
-    }
+    $($playerChar).attr("class", "player-character");
+    $(".player-character-container").append($playerChar);
+    charArray.splice(parseInt($playerChar.attr('id')) - 1, 1);
 
     // TODO: Enemies Logic
-    $(".character").attr("class", "enemies enemy-characters");
+    $(".character").off().attr("class", "enemies enemy-characters");
 
   });
 

@@ -1,12 +1,22 @@
 .character{
     border: 2px solid green;
     margin: 10px;
+    width: 150px;
 }
 .player-character{
     border: 2px blue solid;
+    width: 150px;
 }
 
 .enemies{
     border: 2px solid red;
     margin: 10px;
+}
+
+.characters-list {
+    display:inline-block;
+}
+
+li{
+    list-style-type: none;
 }
