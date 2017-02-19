@@ -4,21 +4,27 @@ function Character(name, hp, attack, counter) {
   this.hp = hp;
   this.attackPower = attack;
   this.counter = counter;
-  this.defeated = false;
   // this.imgpath = "assets/images/" + imgpath;
-  this.fight = function(opponent){
-    var self = this;
-    opponent.hp = opponent.hp - this.attackPower;
-
-    //Some type of processing here would be beneficial/ maybe timing
-
-  };
-  this.deathCheck = function(){
-    return this.hp < 1;
-  }
 }
 
-var $playerChar;
+Character.prototype.fight = function(defender){
+
+  defender.hp -= this.attackPower;
+
+  if(defender.hp < 1){
+
+    $(".player-enemies-container").empty();
+    //delete enemy
+
+  }else{
+
+    // Update character
+
+  }
+
+};
+
+var playerMain;
 var opponent;
 var $instructionsParag = $("#instructions");
 var enemyLock = false;
@@ -49,11 +55,11 @@ $(document).ready(function(){
   generateChars(charArray);
 
   $(".character").on("click", function(){
-    $playerChar = $(this);
+    var $playerChar = $(this);
 
     $($playerChar).attr("class", "player-character");
     $(".player-character-container").append($playerChar);
-    charArray.splice(parseInt($playerChar.attr('id')) - 1, 1);
+    playerMain = charArray[parseInt($playerChar.attr('id')) - 1];
 
     // TODO: Enemies Logic
     $(".character").off().attr("class", "enemies enemy-characters");
@@ -64,9 +70,16 @@ $(document).ready(function(){
 
       if(!enemyLock){
         $(".player-enemies-container").append($(this));
-        opponent = charArray[parseInt($(this).attr('id') - 1)];
+        opponent = charArray[parseInt($(this).attr('id')) - 1];
         enemyLock = true;
       }
+  });
+
+  $("#attack-button").on('click', function(){
+    playerMain.fight(opponent);
+
+    // Update the characters views
+
 
   });
 
