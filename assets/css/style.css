@@ -2,27 +2,21 @@ body{
     /*background-image: url();*/
 }
 
-.character{
-    border: 2px solid green;
-    margin: 10px;
-    width: 150px;
-}
-
-.player-character{
-    border: 2px blue solid;
-    width: 150px;
-}
-
-.enemies{
-    border: 2px solid red;
-    margin: 10px;
-    width: 150px;
-}
-
-.characters-list {
-    display:inline-block;
-}
-
 li{
     list-style-type: none;
+    display:inline-block;
+    margin: 10px 10px 10px 0px;
+    width: 150px;
+}
+
+li.character{
+    border: 2px solid green;
+}
+
+li.player-character{
+    border: 2px blue solid;
+}
+
+li.enemies{
+    border: 2px solid red;
 }
