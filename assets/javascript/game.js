@@ -37,6 +37,13 @@ const $instructionsParag = $("#instructions");
 var enemyLock = false;
 var charArray = [new Character("First", 180, 25, 45), new Character("Second", 180, 10, 45), new Character("Third", 180, 20, 45), new Character("Fourth", 180, 10, 45)];
 
+function buildGame(obj) {
+  $(".player-enemies-container").empty();
+  $(".player-character-container").empty();
+  generateChars(obj);
+}
+
+
 function generateChars(objList) {
 
   for(var i = 0; i < objList.length; i++){
@@ -44,6 +51,8 @@ function generateChars(objList) {
     const charItem =  $("<li class='character'>");
     charItem.attr("id", i+1);
 
+
+    // TODO: Rewrite not as a loop just the main params
     for (var item in objList[i]){
       charItem.attr("data-" + item.toString(), objList[i][item]);
     }
@@ -59,7 +68,7 @@ function generateChars(objList) {
 
 $(document).ready(function(){
 
-  generateChars(charArray);
+  buildGame(charArray);
 
   $(".character").on("click", function(){
     var $playerChar = $(this);
@@ -79,6 +88,7 @@ $(document).ready(function(){
         $(".player-enemies-container").append($(this));
         opponent = charArray[parseInt($(this).attr('id')) - 1];
         enemyLock = true;
+        $("#attack-button").css("display", "block")
       }
   });
 
@@ -90,8 +100,6 @@ $(document).ready(function(){
 
     // Update the characters views
 
-
   });
-
 
 });
