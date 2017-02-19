@@ -1,18 +1,18 @@
 
-function Character(name, hp, attack, counter) {
+function Character(name, hp, attack, counter, imgpath) {
   this.name = name;
   this.hp = hp;
   this.baseAttack = attack;
   this.attackPower = attack;
   this.counter = counter;
-  // this.imgpath = "assets/images/" + imgpath;
+  this.imgpath = "assets/images/characters/" + imgpath;
   this.$me;
 }
 
 Character.prototype.fight = function(defender){
 
   defender.hp -= this.attackPower;
-  this.hp -= defender.attackPower;
+  this.hp -= defender.counter;
   this.attackPower += this.baseAttack;
 
   // TODO: Change the HP possibly through a more creative means
@@ -36,14 +36,13 @@ var playerMain;
 var opponent;
 const $instructionsParag = $("#instructions");
 var enemyLock = false;
-var charArray = [new Character("First", 180, 25, 45), new Character("Second", 180, 10, 45), new Character("Third", 180, 20, 45), new Character("Fourth", 180, 10, 45)];
+var charArray = [new Character("Darth Vader", 180, 25, 45, "vader.jpg"), new Character("Second", 180, 10, 45, "vader.jpg"), new Character("Third", 180, 20, 45, "vader.jpg"), new Character("Fourth", 180, 10, 45, "vader.jpg")];
 
 function buildGame(obj) {
   $(".player-enemies-container").empty();
   $(".player-character-container").empty();
   generateChars(obj);
 }
-
 
 function generateChars(objList) {
 
@@ -58,7 +57,7 @@ function generateChars(objList) {
 
     charItem.append($("<p class='text-center'>").text(objList[i].name));
 
-    // TODO: Add image with .img-responsive
+    charItem.append($("<img class='img-responsive'>").attr("src", objList[i].imgpath).attr("alt", objList[i].name));
 
     charItem.append($("<p class='text-center'>").text("HP:" + objList[i].hp));
 
@@ -100,7 +99,6 @@ $(document).ready(function(){
     if(opponent){
       playerMain.fight(opponent);
     }
-
     // Update the characters views
 
   });
