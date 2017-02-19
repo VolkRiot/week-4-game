@@ -2,9 +2,20 @@
 function Character(name, hp, attack, counter) {
   this.name = name;
   this.hp = hp;
-  this.attack = attack;
+  this.attackPower = attack;
   this.counter = counter;
+  this.defeated = false;
   // this.imgpath = "assets/images/" + imgpath;
+  this.fight = function(opponent){
+    var self = this;
+    opponent.hp = opponent.hp - this.attackPower;
+
+    //Some type of processing here would be beneficial/ maybe timing
+
+  };
+  this.deathCheck = function(){
+    return this.hp < 1;
+  }
 }
 
 var $playerChar;
@@ -28,7 +39,7 @@ function generateChars(objList) {
 
     // TODO: Add image with .img-responsive
 
-    charItem.append($("<p class='text-center'>").text("HP:" + objList[i].hp + " Atk:" + objList[i].attack + " Ctr:" + objList[i].counter));
+    charItem.append($("<p class='text-center'>").text("HP:" + objList[i].hp + " Atk:" + objList[i].attackPower + " Ctr:" + objList[i].counter));
     $("#characters-list").append(charItem);
   }
 }
