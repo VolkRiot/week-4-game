@@ -2,6 +2,7 @@
 function Character(name, hp, attack, counter) {
   this.name = name;
   this.hp = hp;
+  this.baseAttack = attack;
   this.attackPower = attack;
   this.counter = counter;
   // this.imgpath = "assets/images/" + imgpath;
@@ -10,10 +11,12 @@ function Character(name, hp, attack, counter) {
 Character.prototype.fight = function(defender){
 
   defender.hp -= this.attackPower;
+  this.hp -= defender.attackPower;
+  this.attackPower += this.baseAttack;
 
   // TODO: Change the HP possibly through a more creative means
-  $(".player-enemies-container .text-center:last-child").attr('data-hp', defender.hp);
-  $(".player-enemies-container .text-center:last-child").text('HP:' + defender.hp);
+  $(".player-enemies-container .text-center:last-child").attr('data-hp', defender.hp).text('HP:' + defender.hp);
+  $(".player-character-container .text-center:last-child").attr('data-hp', this.hp).text('HP:' + this.hp);
 
   if(defender.hp < 1){
     $(".player-enemies-container").empty();
@@ -32,7 +35,7 @@ var playerMain;
 var opponent;
 const $instructionsParag = $("#instructions");
 var enemyLock = false;
-var charArray = [new Character("First", 180, 25, 45), new Character("Second", 180, 25, 45), new Character("Third", 180, 25, 45), new Character("Fourth", 180, 10, 45)];
+var charArray = [new Character("First", 180, 25, 45), new Character("Second", 180, 10, 45), new Character("Third", 180, 20, 45), new Character("Fourth", 180, 10, 45)];
 
 function generateChars(objList) {
 

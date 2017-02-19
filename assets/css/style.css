@@ -16,6 +16,7 @@ body{
 .enemies{
     border: 2px solid red;
     margin: 10px;
+    width: 150px;
 }
 
 .characters-list {
