@@ -6,6 +6,7 @@ function Character(name, hp, attack, counter) {
   this.attackPower = attack;
   this.counter = counter;
   // this.imgpath = "assets/images/" + imgpath;
+  this.$me;
 }
 
 Character.prototype.fight = function(defender){
@@ -48,21 +49,22 @@ function generateChars(objList) {
 
   for(var i = 0; i < objList.length; i++){
 
-    const charItem =  $("<li class='character'>");
+    var charItem =  $("<li class='character'>");
+
     charItem.attr("id", i+1);
-
-
-    // TODO: Rewrite not as a loop just the main params
-    for (var item in objList[i]){
-      charItem.attr("data-" + item.toString(), objList[i][item]);
-    }
+    charItem.attr("data-name", objList[i].name);
+    charItem.attr("data-hp", objList[i].hp);
+    charItem.attr("data-attack", objList[i].attackPower);
 
     charItem.append($("<p class='text-center'>").text(objList[i].name));
 
     // TODO: Add image with .img-responsive
 
     charItem.append($("<p class='text-center'>").text("HP:" + objList[i].hp));
-    $("#characters-list").append(charItem);
+
+    objList[i].$me = charItem;
+
+    $("#characters-list").append(objList[i].$me);
   }
 }
 
