@@ -11,15 +11,16 @@ Character.prototype.fight = function(defender){
 
   defender.hp -= this.attackPower;
 
+  // TODO: Change the HP possibly through a more creative means
+  $(".player-enemies-container .text-center:last-child").attr('data-hp', defender.hp);
+  $(".player-enemies-container .text-center:last-child").text('HP:' + defender.hp);
+
   if(defender.hp < 1){
-
     $(".player-enemies-container").empty();
+    enemyLock = false;
     //delete enemy
-
   }else{
-
     // Update character
-
   }
 
 };
@@ -45,7 +46,7 @@ function generateChars(objList) {
 
     // TODO: Add image with .img-responsive
 
-    charItem.append($("<p class='text-center'>").text("HP:" + objList[i].hp + " Atk:" + objList[i].attackPower + " Ctr:" + objList[i].counter));
+    charItem.append($("<p class='text-center'>").text("HP:" + objList[i].hp));
     $("#characters-list").append(charItem);
   }
 }
