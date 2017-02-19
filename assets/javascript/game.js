@@ -30,7 +30,7 @@ Character.prototype.fight = function(defender){
 
 var playerMain;
 var opponent;
-var $instructionsParag = $("#instructions");
+const $instructionsParag = $("#instructions");
 var enemyLock = false;
 var charArray = [new Character("First", 180, 25, 45), new Character("Second", 180, 25, 45), new Character("Third", 180, 25, 45), new Character("Fourth", 180, 10, 45)];
 
@@ -38,7 +38,7 @@ function generateChars(objList) {
 
   for(var i = 0; i < objList.length; i++){
 
-    var charItem =  $("<li class='character'>");
+    const charItem =  $("<li class='character'>");
     charItem.attr("id", i+1);
 
     for (var item in objList[i]){
