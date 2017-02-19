@@ -17,11 +17,14 @@ Character.prototype.fight = function(defender){
 
   if(defender.hp < 1){
     $(".player-enemies-container").empty();
+    opponent = null;
     enemyLock = false;
-    //delete enemy
-  }else{
-    // Update character
   }
+
+  if(this.hp < 1){
+    // Player loss logic
+  }
+
 
 };
 
@@ -77,7 +80,10 @@ $(document).ready(function(){
   });
 
   $("#attack-button").on('click', function(){
-    playerMain.fight(opponent);
+
+    if(opponent){
+      playerMain.fight(opponent);
+    }
 
     // Update the characters views
 
