@@ -36,7 +36,7 @@ var playerMain;
 var opponent;
 const $instructionsParag = $("#instructions");
 var enemyLock = false;
-var charArray = [new Character("Darth Vader", 180, 25, 45, "vader.jpg"), new Character("Boba Fett", 180, 10, 45, "boba.jpg"), new Character("Luke Skywalker", 180, 10, 45, "luke.jpg"), new Character("Darth Sidious", 180, 10, 45, "palpatine.jpg"), new Character("Han Solo", 180, 10, 45, "han.jpg") , new Character("Ahsoka Tano", 180, 20, 45, "ashoka.jpg")];
+var charArray = [new Character("Darth Vader", 180, 45, 25, "vader.jpg"), new Character("Boba Fett", 180, 30, 25, "boba.jpg"), new Character("Luke Skywalker", 180, 10, 45, "luke.jpg"), new Character("Darth Sidious", 180, 10, 45, "palpatine.jpg"), new Character("Han Solo", 180, 10, 45, "han.jpg") , new Character("Ahsoka Tano", 180, 20, 45, "ashoka.jpg")];
 
 function buildGame(obj) {
   $(".player-enemies-container").empty();

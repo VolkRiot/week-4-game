@@ -1,5 +1,5 @@
 body{
-    /*background-image: url();*/
+    background-image: url(../images/backgrounds/deathstar.jpg);
 }
 
 li{
@@ -8,6 +8,7 @@ li{
     margin: 10px 10px 10px 0px;
     width: 150px;
     padding: 0 5px 0 5px;
+    background-color: lightslategrey;
 }
 
 li.character{
