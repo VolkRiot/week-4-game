@@ -2,6 +2,10 @@ body{
     background-image: url(../images/backgrounds/deathstar.jpg);
 }
 
+img.img-responsive {
+    padding-bottom: 5px;
+}
+
 p, p.h4{
     font-family: Helvetica, sans-serif;
     color: floralwhite;
@@ -10,7 +14,7 @@ p, p.h4{
 li{
     list-style-type: none;
     display:inline-block;
-    margin: 10px 10px 10px 0px;
+    margin: 10px 10px 10px 0;
     width: 150px;
     padding: 0 5px 0 5px;
     background-color: lightslategrey;
@@ -22,6 +26,11 @@ li.character{
 
 li.player-character{
     border: 2px blue solid;
+    background-color: lightblue;
+}
+
+li.player-character p{
+    color: black;
 }
 
 li.enemies{

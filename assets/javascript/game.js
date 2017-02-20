@@ -26,6 +26,7 @@ Character.prototype.fight = function(defender){
   }
 
   if(this.hp < 1){
+    $("#attack-button").attr("display", "none");
     // Player loss logic
   }
 
@@ -88,6 +89,7 @@ $(document).ready(function(){
       if(!enemyLock){
         $(".player-enemies-container").append($(this));
         $(this).css('border', '2px solid red');
+        $(this).css('background-color', 'black');
         opponent = charArray[parseInt($(this).attr('id')) - 1];
         enemyLock = true;
         $("#attack-button").css("display", "block")
