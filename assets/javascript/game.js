@@ -26,10 +26,15 @@ Character.prototype.fight = function(defender){
     $(".player-enemies-container").empty();
     opponent = null;
     enemyLock = false;
+    $("#player-actions-readout").text("You defeated " + defender.name);
+    $("#enemy-actions-readout").empty();
   }
 
   if(this.hp < 1){
     $("#attack-button").css("display", "none");
+    $("#player-actions-readout").text("You were defeated by " + defender.name + ". Game Over!");
+    $("#enemy-actions-readout").empty();
+    $("#restart-button").css("display", "block")
   }
 
 };
@@ -101,5 +106,9 @@ $(document).ready(function(){
     }
 
   });
+
+  $("#restart-button").on('click', function(){
+    location.reload();
+  })
 
 });

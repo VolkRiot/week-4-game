@@ -40,3 +40,7 @@ li.enemies{
 #attack-button{
     display: none;
 }
+
+#restart-button{
+    display: none;
+}
