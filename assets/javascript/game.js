@@ -18,6 +18,9 @@ Character.prototype.fight = function(defender){
   // TODO: Change the HP possibly through a more creative means
   $(".player-enemies-container .text-center:last-child").attr('data-hp', defender.hp).text('HP:' + defender.hp);
   $(".player-character-container .text-center:last-child").attr('data-hp', this.hp).text('HP:' + this.hp);
+  $("#player-actions-readout").text("You attacked " + defender.name + " for " + this.attackPower + " damage.");
+  $("#enemy-actions-readout").text(defender.name + " attacked you back for " + defender.counter + " damage.");
+
 
   if(defender.hp < 1){
     $(".player-enemies-container").empty();
@@ -92,13 +95,10 @@ $(document).ready(function(){
   });
 
   $("#attack-button").on('click', function(){
-    
+
     if(opponent){
       playerMain.fight(opponent);
     }
-
-    $("#player-actions-readout").text("You attacked " + opponent.name + " for " + playerMain.attackPower + " damage.");
-    $("#enemy-actions-readout").text(opponent.name + " attacked you back for " + opponent.counter + " damage.");
 
   });
 
