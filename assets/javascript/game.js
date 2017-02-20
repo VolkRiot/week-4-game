@@ -87,7 +87,7 @@ $(document).ready(function(){
 
       if(!enemyLock){
         $(".player-enemies-container").append($(this));
-        $(this).css('border', '2px solid black');
+        $(this).css('border', '2px solid red');
         opponent = charArray[parseInt($(this).attr('id')) - 1];
         enemyLock = true;
         $("#attack-button").css("display", "block")

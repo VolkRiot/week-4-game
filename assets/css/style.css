@@ -2,6 +2,11 @@ body{
     background-image: url(../images/backgrounds/deathstar.jpg);
 }
 
+p{
+    font-family: Helvetica, sans-serif;
+    color: floralwhite;
+}
+
 li{
     list-style-type: none;
     display:inline-block;
@@ -20,7 +25,7 @@ li.player-character{
 }
 
 li.enemies{
-    border: 2px solid red;
+    border: 2px solid orange;
 }
 
 #attack-button{
