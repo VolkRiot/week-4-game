@@ -26,10 +26,8 @@ Character.prototype.fight = function(defender){
   }
 
   if(this.hp < 1){
-    $("#attack-button").attr("display", "none");
-    // Player loss logic
+    $("#attack-button").css("display", "none");
   }
-
 
 };
 
@@ -57,9 +55,7 @@ function generateChars(objList) {
     charItem.attr("data-attack", objList[i].attackPower);
 
     charItem.append($("<p class='text-center'>").text(objList[i].name));
-
     charItem.append($("<img class='img-responsive'>").attr("src", objList[i].imgpath).attr("alt", objList[i].name));
-
     charItem.append($("<p class='text-center'>").text("HP:" + objList[i].hp));
 
     objList[i].$me = charItem;
@@ -79,7 +75,6 @@ $(document).ready(function(){
     $(".player-character-container").append($playerChar);
     playerMain = charArray[parseInt($playerChar.attr('id')) - 1];
 
-    // TODO: Enemies Logic
     $(".character").off().attr("class", "enemies enemy-characters");
     $instructionsParag.text("Choose your opponent wisely");
   });
@@ -97,11 +92,13 @@ $(document).ready(function(){
   });
 
   $("#attack-button").on('click', function(){
-
+    
     if(opponent){
       playerMain.fight(opponent);
     }
-    // Update the characters views
+
+    $("#player-actions-readout").text("You attacked " + opponent.name + " for " + playerMain.attackPower + " damage.");
+    $("#enemy-actions-readout").text(opponent.name + " attacked you back for " + opponent.counter + " damage.");
 
   });
 
