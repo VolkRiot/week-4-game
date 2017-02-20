@@ -12,14 +12,6 @@ function Character(name, hp, attack, counter, imgpath) {
 Character.prototype.fight = function(defender){
 
   defender.hp -= this.attackPower;
-  this.attackPower += this.baseAttack;
-
-  // TODO: Change the HP possibly through a more creative means
-  $(".player-enemies-container .text-center:last-child").attr('data-hp', defender.hp).text('HP:' + defender.hp);
-  $(".player-character-container .text-center:last-child").attr('data-hp', this.hp).text('HP:' + this.hp);
-  $("#player-actions-readout").text("You attacked " + defender.name + " for " + this.attackPower + " damage.");
-  $("#enemy-actions-readout").text(defender.name + " attacked you back for " + defender.counter + " damage.");
-
 
   if(defender.hp < 1){
     $(".player-enemies-container").empty();
@@ -31,13 +23,20 @@ Character.prototype.fight = function(defender){
     this.hp -= defender.counter;
   }
 
+  // TODO: Change the HP possibly through a more creative means
+  $(".player-enemies-container .text-center:last-child").attr('data-hp', defender.hp).text('HP:' + defender.hp);
+  $(".player-character-container .text-center:last-child").attr('data-hp', this.hp).text('HP:' + this.hp);
+  $("#player-actions-readout").text("You attacked " + defender.name + " for " + this.attackPower + " damage.");
+  $("#enemy-actions-readout").text(defender.name + " attacked you back for " + defender.counter + " damage.");
+
+  this.attackPower += this.baseAttack;
+
   if(this.hp < 1){
     $("#attack-button").css("display", "none");
     $("#player-actions-readout").text("You were defeated by " + defender.name + ". Game Over!");
     $("#enemy-actions-readout").empty();
     $("#restart-button").css("display", "block")
   }
-
 };
 
 var playerMain;
@@ -119,7 +118,7 @@ $(document).ready(function(){
 
     if( $('#characters-list').is(':empty')){
 
-      //TODO: Actual win logic like I dunno something or other...
+      //TODO: Win logic goes here so go nuts I suppose...
       $("#attack-button").css("display", "none");
       $("#restart-button").css("display", "block");
     }
