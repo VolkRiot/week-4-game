@@ -12,7 +12,6 @@ function Character(name, hp, attack, counter, imgpath) {
 Character.prototype.fight = function(defender){
 
   defender.hp -= this.attackPower;
-  this.hp -= defender.counter;
   this.attackPower += this.baseAttack;
 
   // TODO: Change the HP possibly through a more creative means
@@ -28,6 +27,8 @@ Character.prototype.fight = function(defender){
     enemyLock = false;
     $("#player-actions-readout").text("You defeated " + defender.name);
     $("#enemy-actions-readout").empty();
+  }else{
+    this.hp -= defender.counter;
   }
 
   if(this.hp < 1){
@@ -44,7 +45,7 @@ var opponent;
 const $instructionsParag = $("#instructions");
 var enemyLock = false;
 var charLock = false;
-var charArray = [new Character("Darth Vader", 180, 45, 25, "vader.jpg"), new Character("Boba Fett", 180, 30, 25, "boba.jpg"), new Character("Luke Skywalker", 180, 10, 45, "luke.jpg"), new Character("Darth Sidious", 180, 10, 45, "palpatine.jpg"), new Character("Han Solo", 180, 10, 45, "han.jpg") , new Character("Ahsoka Tano", 180, 20, 45, "ashoka.jpg")];
+var charArray = [new Character("Darth Vader", 250, 40, 55, "vader.jpg"), new Character("Boba Fett", 200, 30, 25, "boba.jpg"), new Character("Luke Skywalker", 180, 10, 25, "luke.jpg"), new Character("Darth Sidious", 300, 25, 65, "palpatine.jpg"), new Character("Han Solo", 150, 30, 45, "han.jpg") , new Character("Ahsoka Tano", 140, 55, 45, "ashoka.jpg")];
 
 function hardReset() {
   charLock = false;
@@ -108,19 +109,25 @@ $(document).ready(function(){
       enemyLock = true;
       $("#attack-button").css("display", "block")
     }
-
   });
 
   $("#attack-button").on('click', function(){
 
-    if(opponent){
+    if(opponent) {
       playerMain.fight(opponent);
+    }
+
+    if( $('#characters-list').is(':empty')){
+
+      //TODO: Actual win logic like I dunno something or other...
+      $("#attack-button").css("display", "none");
+      $("#restart-button").css("display", "block");
     }
 
   });
 
   $("#restart-button").on('click', function(){
-    charArray  = [new Character("Darth Vader", 180, 45, 25, "vader.jpg"), new Character("Boba Fett", 180, 30, 25, "boba.jpg"), new Character("Luke Skywalker", 180, 10, 45, "luke.jpg"), new Character("Darth Sidious", 180, 10, 45, "palpatine.jpg"), new Character("Han Solo", 180, 10, 45, "han.jpg") , new Character("Ahsoka Tano", 180, 20, 45, "ashoka.jpg")];
+    charArray  = [new Character("Darth Vader", 250, 40, 55, "vader.jpg"), new Character("Boba Fett", 200, 30, 25, "boba.jpg"), new Character("Luke Skywalker", 180, 10, 25, "luke.jpg"), new Character("Darth Sidious", 300, 25, 65, "palpatine.jpg"), new Character("Han Solo", 150, 30, 45, "han.jpg") , new Character("Ahsoka Tano", 140, 55, 45, "ashoka.jpg")];
     buildGame(charArray);
   });
 
