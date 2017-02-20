@@ -43,11 +43,22 @@ var playerMain;
 var opponent;
 const $instructionsParag = $("#instructions");
 var enemyLock = false;
+var charLock = false;
 var charArray = [new Character("Darth Vader", 180, 45, 25, "vader.jpg"), new Character("Boba Fett", 180, 30, 25, "boba.jpg"), new Character("Luke Skywalker", 180, 10, 45, "luke.jpg"), new Character("Darth Sidious", 180, 10, 45, "palpatine.jpg"), new Character("Han Solo", 180, 10, 45, "han.jpg") , new Character("Ahsoka Tano", 180, 20, 45, "ashoka.jpg")];
 
-function buildGame(obj) {
+function hardReset() {
+  charLock = false;
+  enemyLock = false;
   $(".player-enemies-container").empty();
   $(".player-character-container").empty();
+  $("#characters-list").empty();
+  $("#attack-button").css("display", "none");
+  $("#restart-button").css("display", "none");
+  $instructionsParag.text("Choose a player character below");
+}
+
+function buildGame(obj) {
+  hardReset();
   generateChars(obj);
 }
 
@@ -76,27 +87,28 @@ $(document).ready(function(){
 
   buildGame(charArray);
 
-  $(".character").on("click", function(){
-    var $playerChar = $(this);
+  $("#characters-list").on("click",".character", function(){
 
-    $($playerChar).attr("class", "player-character");
-    $(".player-character-container").append($playerChar);
-    playerMain = charArray[parseInt($playerChar.attr('id')) - 1];
+    if(!charLock){
 
-    $(".character").off().attr("class", "enemies enemy-characters");
-    $instructionsParag.text("Choose your opponent wisely");
-  });
+      var $playerChar = $(this);
+      $($playerChar).attr("class", "player-character");
+      $(".player-character-container").append($playerChar);
+      playerMain = charArray[parseInt($playerChar.attr('id')) - 1];
+      $(".character").attr("class", "character enemies enemy-characters");
+      $instructionsParag.text("Choose your opponent wisely");
+      charLock = true;
 
-  $("#characters-list").on('click', ".enemies", function(){
+    }else if(!enemyLock){
 
-      if(!enemyLock){
-        $(".player-enemies-container").append($(this));
-        $(this).css('border', '2px solid red');
-        $(this).css('background-color', 'black');
-        opponent = charArray[parseInt($(this).attr('id')) - 1];
-        enemyLock = true;
-        $("#attack-button").css("display", "block")
-      }
+      $(".player-enemies-container").append($(this));
+      $(this).css('border', '2px solid red');
+      $(this).css('background-color', 'black');
+      opponent = charArray[parseInt($(this).attr('id')) - 1];
+      enemyLock = true;
+      $("#attack-button").css("display", "block")
+    }
+
   });
 
   $("#attack-button").on('click', function(){
@@ -108,7 +120,8 @@ $(document).ready(function(){
   });
 
   $("#restart-button").on('click', function(){
-    location.reload();
-  })
+    charArray  = [new Character("Darth Vader", 180, 45, 25, "vader.jpg"), new Character("Boba Fett", 180, 30, 25, "boba.jpg"), new Character("Luke Skywalker", 180, 10, 45, "luke.jpg"), new Character("Darth Sidious", 180, 10, 45, "palpatine.jpg"), new Character("Han Solo", 180, 10, 45, "han.jpg") , new Character("Ahsoka Tano", 180, 20, 45, "ashoka.jpg")];
+    buildGame(charArray);
+  });
 
 });
