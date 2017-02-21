@@ -5,10 +5,10 @@ function Character(name, hp, attack, counter, imgFile, audioFile, weaponsArray) 
   this.baseAttack = attack;
   this.attackPower = attack;
   this.counter = counter;
-  this.imgpath = "assets/images/characters/" + imgFile;
-  this.speak = new Audio("assets/sounds/" + audioFile);
+  this.imgpath = "assets/starWars/images/characters/" + imgFile;
+  this.speak = new Audio("assets/starWars/sounds/" + audioFile);
   this.weaponeffect = function () {
-    return new Audio("assets/sounds/" + weaponsArray[Math.floor(Math.random() * weaponsArray.length)].toString());
+    return new Audio("assets/starWars/sounds/" + weaponsArray[Math.floor(Math.random() * weaponsArray.length)].toString());
   };
   this.$me;
 }
@@ -66,7 +66,7 @@ function hardReset() {
 }
 
 function buildGame(obj) {
-  $("body").css("background-image", "url(assets/images/backgrounds/" + backgrounds[Math.floor(Math.random() * backgrounds.length)] + ")");
+  $("body").css("background-image", "url(assets/starWars/images/backgrounds/" + backgrounds[Math.floor(Math.random() * backgrounds.length)] + ")");
   hardReset();
   generateChars(obj);
 }
@@ -95,7 +95,7 @@ function generateChars(objList) {
 $(document).ready(function(){
 
   buildGame(charArray);
-  var mainTheme = new Audio("assets/sounds/" + "theme.mp3");
+  var mainTheme = new Audio("assets/starWars/sounds/" + "theme.mp3");
   mainTheme.volume = 0.05;
   mainTheme.play();
 
