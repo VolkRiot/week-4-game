@@ -7,7 +7,7 @@ function Character(name, hp, attack, counter, imgFile, audioFile, weaponsArray) 
   this.counter = counter;
   this.imgpath = "assets/"+ gameAssets.gameTheme +"/images/characters/" + imgFile;
   this.speak = new Audio("assets/"+ gameAssets.gameTheme +"/sounds/" + audioFile);
-  this.weaponeffect = function () {
+  this.weaponEffect = function () {
     return new Audio("assets/"+ gameAssets.gameTheme +"/sounds/" + weaponsArray[Math.floor(Math.random() * weaponsArray.length)].toString());
   };
   this.$me;
@@ -20,7 +20,7 @@ Character.prototype.fight = function(defender){
   if(defender.hp < 1){
     opponent.$me.effect("explode", "slow");
     opponent = null;
-    enemyLock = false;
+    gameAssets.enemyLock = false;
     $("#player-actions-readout").text("You defeated " + defender.name);
     $("#enemy-actions-readout").empty();
   }else{
@@ -47,20 +47,27 @@ function GameBoard(theme, backgroundsArray, weaponEffectObj) {
   this.gameTheme = theme;
   this.backgrounds = backgroundsArray;
   this.weaponEffects = weaponEffectObj;
+  this.enemyLock = false;
+  this.playerLock = false;
 }
 
 var playerMain;
 var opponent;
 const $instructionsParag = $("#instructions");
-var enemyLock = false;
-var charLock = false;
 
+// GameBoard("file-name-directory","list-background-imgs", "Obj{Regular: Combat Sound Effects(i.e. common weapons), Special: Combat Sound Effects(i.e. lightsaber's)}")
 var gameAssets = new GameBoard("starWars", ["deathstar.jpg", "falcon.jpg", "walker.jpg"], {"regular":["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"], "special":["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]});
-var charArray = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.mp3", gameAssets.weaponEffects["special"]), new Character("Boba Fett", 200, 30, 25, "boba.jpg", "boba.mp3", gameAssets.weaponEffects["regular"]), new Character("Luke Skywalker", 180, 10, 25, "luke.jpg", "luke.mp3", gameAssets.weaponEffects["special"]), new Character("Darth Sidious", 300, 25, 65, "palpatine.jpg", "emperor.mp3", gameAssets.weaponEffects["special"]), new Character("Han Solo", 200, 35, 45, "han.jpg", "han.mp3", gameAssets.weaponEffects["regular"]), new Character("Ahsoka Tano", 215, 45, 45, "ashoka.jpg", "ashoka.mp3", gameAssets.weaponEffects["special"])];
+
+var charArray = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.mp3", gameAssets.weaponEffects["special"]),
+  new Character("Boba Fett", 200, 30, 25, "boba.jpg", "boba.mp3", gameAssets.weaponEffects["regular"]),
+  new Character("Luke Skywalker", 180, 10, 25, "luke.jpg", "luke.mp3", gameAssets.weaponEffects["special"]),
+  new Character("Darth Sidious", 300, 25, 65, "palpatine.jpg", "emperor.mp3", gameAssets.weaponEffects["special"]),
+  new Character("Han Solo", 200, 35, 45, "han.jpg", "han.mp3", gameAssets.weaponEffects["regular"]),
+  new Character("Ahsoka Tano", 215, 45, 45, "ashoka.jpg", "ashoka.mp3", gameAssets.weaponEffects["special"])];
 
 function hardReset() {
-  charLock = false;
-  enemyLock = false;
+  gameAssets.playerLock = false;
+  gameAssets.enemyLock = false;
   $(".player-enemies-container").empty();
   $(".player-character-container").empty();
   $("#characters-list").empty();
@@ -105,25 +112,25 @@ $(document).ready(function(){
 
   $("#characters-list").on("click",".character", function(){
 
-    if(!charLock){
+    if(!gameAssets.playerLock){
 
       var $playerChar = $(this);
-      $($playerChar).attr("class", "player-character");
+      $playerChar.attr("class", "player-character");
       $(".player-character-container").append($playerChar);
       playerMain = charArray[parseInt($playerChar.attr('id')) - 1];
       $(".character").attr("class", "character enemies enemy-characters");
       $instructionsParag.text("Choose your opponent wisely");
-      charLock = true;
+      gameAssets.playerLock = true;
       playerMain.speak.play();
 
-    }else if(!enemyLock){
+    }else if(!gameAssets.enemyLock){
 
       $(".player-enemies-container").empty();
       $(".player-enemies-container").append($(this));
       $(this).css('border', '2px solid red');
       $(this).css('background-color', 'black');
       opponent = charArray[parseInt($(this).attr('id')) - 1];
-      enemyLock = true;
+      gameAssets.enemyLock = true;
       $("#attack-button").css("display", "block");
       opponent.speak.play();
     }
@@ -132,10 +139,10 @@ $(document).ready(function(){
   $("#attack-button").on('click', function(){
 
     if(opponent) {
-      playerMain.weaponeffect().play();
+      playerMain.weaponEffect().play();
       playerMain.$me.effect("shake", "slow");
       opponent.$me.effect("pulsate", "slow");
-      opponent.weaponeffect().play();
+      opponent.weaponEffect().play();
       opponent.$me.effect("shake", "slow");
       playerMain.$me.effect("pulsate", "slow");
       playerMain.fight(opponent);
@@ -144,10 +151,8 @@ $(document).ready(function(){
     if( $('#characters-list').is(':empty')){
 
       //TODO: Win logic goes here so go nuts I suppose...
-
       $("#attack-button").css("display", "none");
       $("#restart-button").css("display", "block");
-
     }
   });
 
@@ -160,7 +165,12 @@ $(document).ready(function(){
   });
 
   $("#restart-button").on('click', function(){
-    charArray  = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.mp3", gameAssets.weaponEffects["special"]), new Character("Boba Fett", 200, 30, 25, "boba.jpg", "boba.mp3", gameAssets.weaponEffects["regular"]), new Character("Luke Skywalker", 180, 10, 25, "luke.jpg", "luke.mp3", gameAssets.weaponEffects["special"]), new Character("Darth Sidious", 300, 25, 65, "palpatine.jpg", "emperor.mp3", gameAssets.weaponEffects["special"]), new Character("Han Solo", 200, 35, 45, "han.jpg", "han.mp3", gameAssets.weaponEffects["regular"]), new Character("Ahsoka Tano", 215, 45, 45, "ashoka.jpg", "ashoka.mp3", gameAssets.weaponEffects["special"])];
+    charArray  = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.mp3", gameAssets.weaponEffects["special"]),
+      new Character("Boba Fett", 200, 30, 25, "boba.jpg", "boba.mp3", gameAssets.weaponEffects["regular"]),
+      new Character("Luke Skywalker", 180, 10, 25, "luke.jpg", "luke.mp3", gameAssets.weaponEffects["special"]),
+      new Character("Darth Sidious", 300, 25, 65, "palpatine.jpg", "emperor.mp3", gameAssets.weaponEffects["special"]),
+      new Character("Han Solo", 200, 35, 45, "han.jpg", "han.mp3", gameAssets.weaponEffects["regular"]),
+      new Character("Ahsoka Tano", 215, 45, 45, "ashoka.jpg", "ashoka.mp3", gameAssets.weaponEffects["special"])];
     buildGame(charArray);
   });
 
