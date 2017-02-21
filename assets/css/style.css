@@ -5,9 +5,10 @@ img.img-responsive {
 p, p.h4{
     font-family: Helvetica, sans-serif;
     color: floralwhite;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
-.music-button{
+#music-button{
     left: -2%;
 }
 
@@ -22,19 +23,29 @@ li{
 
 li.character{
     border: 2px solid green;
+    padding: 0;
 }
 
 li.player-character{
     border: 2px blue solid;
     background-color: lightblue;
+    padding:0;
 }
 
 li.player-character p{
     color: black;
+    text-shadow: none;
 }
 
 li.enemies{
     border: 2px solid orange;
+}
+
+p.text-center{
+    margin: 3px 0 3px 0
+}
+#stats-column{
+    left: 1%;
 }
 
 #attack-button{

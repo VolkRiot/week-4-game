@@ -95,6 +95,9 @@ function generateChars(objList) {
 $(document).ready(function(){
 
   buildGame(charArray);
+  var mainTheme = new Audio("assets/sounds/" + "theme.mp3");
+  mainTheme.volume = 0.05;
+  mainTheme.play();
 
   $("#characters-list").on("click",".character", function(){
 
@@ -139,6 +142,14 @@ $(document).ready(function(){
       //TODO: Win logic goes here so go nuts I suppose...
       $("#attack-button").css("display", "none");
       $("#restart-button").css("display", "block");
+    }
+  });
+
+  $('#music-button').click(function() {
+    if (mainTheme.paused == false) {
+      mainTheme.pause();
+    } else {
+      mainTheme.play();
     }
   });
 
