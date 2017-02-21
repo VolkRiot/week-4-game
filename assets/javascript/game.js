@@ -16,6 +16,7 @@ Character.prototype.fight = function(defender){
   defender.hp -= this.attackPower;
 
   if(defender.hp < 1){
+    opponent.$me.effect("explode", "slow");
     $(".player-enemies-container").empty();
     opponent = null;
     enemyLock = false;
@@ -109,7 +110,7 @@ $(document).ready(function(){
       $(this).css('background-color', 'black');
       opponent = charArray[parseInt($(this).attr('id')) - 1];
       enemyLock = true;
-      $("#attack-button").css("display", "block")
+      $("#attack-button").css("display", "block");
       opponent.speak.play();
     }
   });
@@ -118,6 +119,10 @@ $(document).ready(function(){
 
     if(opponent) {
       playerMain.fight(opponent);
+      playerMain.$me.effect("shake", "slow");
+      opponent.$me.effect("pulsate", "slow");
+      opponent.$me.effect("shake", "slow");
+      playerMain.$me.effect("pulsate", "slow");
     }
 
     if( $('#characters-list').is(':empty')){
