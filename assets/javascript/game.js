@@ -128,6 +128,7 @@ $(document).ready(function(){
       playerMain.weaponeffect().play();
       playerMain.$me.effect("shake", "slow");
       opponent.$me.effect("pulsate", "slow");
+      opponent.weaponeffect().play();
       opponent.$me.effect("shake", "slow");
       playerMain.$me.effect("pulsate", "slow");
       playerMain.fight(opponent);

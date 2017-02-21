@@ -7,6 +7,10 @@ p, p.h4{
     color: floralwhite;
 }
 
+.music-button{
+    left: -2%;
+}
+
 li{
     list-style-type: none;
     display:inline-block;
