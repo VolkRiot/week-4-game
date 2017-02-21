@@ -27,7 +27,6 @@ Character.prototype.fight = function(defender){
     this.hp -= defender.counter;
   }
 
-  // TODO: Change the HP possibly through a more creative means
   $(".player-enemies-container .text-center:last-child").attr('data-hp', defender.hp).text('HP:' + defender.hp);
   $(".player-character-container .text-center:last-child").attr('data-hp', this.hp).text('HP:' + this.hp);
   $("#player-actions-readout").text("You attacked " + defender.name + " for " + this.attackPower + " damage.");
@@ -95,7 +94,7 @@ function generateChars(objList) {
 $(document).ready(function(){
 
   buildGame(charArray);
-  var mainTheme = new Audio("assets/starWars/sounds/" + "theme.mp3");
+  var mainTheme = new Audio("assets/starWars/sounds/theme.mp3");
   mainTheme.volume = 0.05;
   mainTheme.play();
 
@@ -140,8 +139,10 @@ $(document).ready(function(){
     if( $('#characters-list').is(':empty')){
 
       //TODO: Win logic goes here so go nuts I suppose...
+
       $("#attack-button").css("display", "none");
       $("#restart-button").css("display", "block");
+
     }
   });
 
