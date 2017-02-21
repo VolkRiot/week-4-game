@@ -21,24 +21,24 @@ Character.prototype.fight = function(defender){
     opponent.$me.effect("explode", "slow");
     opponent = null;
     gameAssets.enemyLock = false;
-    $("#player-actions-readout").text("You defeated " + defender.name);
-    $("#enemy-actions-readout").empty();
+    gameAssets.$playerReadout.text("You defeated " + defender.name);
+    gameAssets.$enemyReadout.empty();
   }else{
     this.hp -= defender.counter;
   }
 
   $(".player-enemies-container .text-center:last-child").attr('data-hp', defender.hp).text('HP:' + defender.hp);
   $(".player-character-container .text-center:last-child").attr('data-hp', this.hp).text('HP:' + this.hp);
-  $("#player-actions-readout").text("You attacked " + defender.name + " for " + this.attackPower + " damage.");
-  $("#enemy-actions-readout").text(defender.name + " attacked you back for " + defender.counter + " damage.");
+  gameAssets.$playerReadout.text("You attacked " + defender.name + " for " + this.attackPower + " damage.");
+  gameAssets.$enemyReadout.text(defender.name + " attacked you back for " + defender.counter + " damage.");
 
   this.attackPower += this.baseAttack;
 
   if(this.hp < 1){
-    $("#attack-button").css("display", "none");
-    $("#player-actions-readout").text("You were defeated by " + defender.name + ". Game Over!");
-    $("#enemy-actions-readout").empty();
-    $("#restart-button").css("display", "block");
+    gameAssets.$attackButton.css("display", "none");
+    gameAssets.$playerReadout.text("You were defeated by " + defender.name + ". Game Over!");
+    gameAssets.$enemyReadout.empty();
+    gameAssets.$restartButton.css("display", "block");
     this.$me.effect("puff", "slow");
   }
 };
@@ -49,14 +49,23 @@ function GameBoard(theme, backgroundsArray, weaponEffectObj) {
   this.weaponEffects = weaponEffectObj;
   this.enemyLock = false;
   this.playerLock = false;
+  this.$instructionsParag = $("#instructions");
+  this.$charList = $("#characters-list");
+  this.$enemiesContainer = $(".player-enemies-container");
+  this.$playerContainer = $(".player-character-container");
+  this.$attackButton = $("#attack-button");
+  this.$restartButton = $("#restart-button");
+  this.$playerReadout = $("#player-actions-readout");
+  this.$enemyReadout = $("#enemy-actions-readout");
 }
 
 var playerMain;
 var opponent;
-const $instructionsParag = $("#instructions");
 
-// GameBoard("file-name-directory","list-background-imgs", "Obj{Regular: Combat Sound Effects(i.e. common weapons), Special: Combat Sound Effects(i.e. lightsaber's)}")
-var gameAssets = new GameBoard("starWars", ["deathstar.jpg", "falcon.jpg", "walker.jpg"], {"regular":["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"], "special":["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]});
+// GameBoard("file-name-directory", "list-background-imgs", "Obj{Regular: Combat Sound Effects(i.e. common weapons), Special: Combat Sound Effects(i.e. lightsaber)}")
+var gameAssets = new GameBoard("starWars",
+    ["deathstar.jpg", "falcon.jpg", "walker.jpg"],
+    {"regular":["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"], "special":["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]});
 
 var charArray = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.mp3", gameAssets.weaponEffects["special"]),
   new Character("Boba Fett", 200, 30, 25, "boba.jpg", "boba.mp3", gameAssets.weaponEffects["regular"]),
@@ -68,12 +77,12 @@ var charArray = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.m
 function hardReset() {
   gameAssets.playerLock = false;
   gameAssets.enemyLock = false;
-  $(".player-enemies-container").empty();
-  $(".player-character-container").empty();
-  $("#characters-list").empty();
-  $("#attack-button").css("display", "none");
-  $("#restart-button").css("display", "none");
-  $instructionsParag.text("Choose a player character below");
+  gameAssets.$enemiesContainer.empty();
+  gameAssets.$playerContainer.empty();
+  gameAssets.$charList.empty();
+  gameAssets.$attackButton.css("display", "none");
+  gameAssets.$restartButton.css("display", "none");
+  gameAssets.$instructionsParag.text("Choose your player character below");
 }
 
 function buildGame(obj) {
@@ -99,7 +108,7 @@ function generateChars(objList) {
 
     objList[i].$me = charItem;
 
-    $("#characters-list").append(objList[i].$me);
+    gameAssets.$charList.append(objList[i].$me);
   }
 }
 
@@ -110,33 +119,32 @@ $(document).ready(function(){
   mainTheme.volume = 0.05;
   mainTheme.play();
 
-  $("#characters-list").on("click",".character", function(){
+  gameAssets.$charList.on("click",".character", function(){
 
     if(!gameAssets.playerLock){
 
-      var $playerChar = $(this);
-      $playerChar.attr("class", "player-character");
-      $(".player-character-container").append($playerChar);
-      playerMain = charArray[parseInt($playerChar.attr('id')) - 1];
+      $(this).attr("class", "player-character");
+      gameAssets.$playerContainer.append($(this));
+      playerMain = charArray[parseInt($(this).attr('id')) - 1];
       $(".character").attr("class", "character enemies enemy-characters");
-      $instructionsParag.text("Choose your opponent wisely");
+      gameAssets.$instructionsParag.text("Choose your opponent wisely");
       gameAssets.playerLock = true;
       playerMain.speak.play();
 
     }else if(!gameAssets.enemyLock){
 
-      $(".player-enemies-container").empty();
-      $(".player-enemies-container").append($(this));
+      gameAssets.$enemiesContainer.empty();
+      gameAssets.$enemiesContainer.append($(this));
       $(this).css('border', '2px solid red');
       $(this).css('background-color', 'black');
       opponent = charArray[parseInt($(this).attr('id')) - 1];
       gameAssets.enemyLock = true;
-      $("#attack-button").css("display", "block");
+      gameAssets.$attackButton.css("display", "block");
       opponent.speak.play();
     }
   });
 
-  $("#attack-button").on('click', function(){
+  gameAssets.$attackButton.on('click', function(){
 
     if(opponent) {
       playerMain.weaponEffect().play();
@@ -148,23 +156,15 @@ $(document).ready(function(){
       playerMain.fight(opponent);
     }
 
-    if( $('#characters-list').is(':empty')){
+    if( gameAssets.$charList.is(':empty')){
 
       //TODO: Win logic goes here so go nuts I suppose...
-      $("#attack-button").css("display", "none");
-      $("#restart-button").css("display", "block");
+      gameAssets.$attackButton.css("display", "none");
+      gameAssets.$restartButton.css("display", "block");
     }
   });
 
-  $('#music-button').click(function() {
-    if (mainTheme.paused == false) {
-      mainTheme.pause();
-    } else {
-      mainTheme.play();
-    }
-  });
-
-  $("#restart-button").on('click', function(){
+  gameAssets.$restartButton.on('click', function(){
     charArray  = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.mp3", gameAssets.weaponEffects["special"]),
       new Character("Boba Fett", 200, 30, 25, "boba.jpg", "boba.mp3", gameAssets.weaponEffects["regular"]),
       new Character("Luke Skywalker", 180, 10, 25, "luke.jpg", "luke.mp3", gameAssets.weaponEffects["special"]),
@@ -172,6 +172,14 @@ $(document).ready(function(){
       new Character("Han Solo", 200, 35, 45, "han.jpg", "han.mp3", gameAssets.weaponEffects["regular"]),
       new Character("Ahsoka Tano", 215, 45, 45, "ashoka.jpg", "ashoka.mp3", gameAssets.weaponEffects["special"])];
     buildGame(charArray);
+  });
+
+  $("#music-button").click(function() {
+    if (mainTheme.paused == false) {
+      mainTheme.pause();
+    } else {
+      mainTheme.play();
+    }
   });
 
 });
