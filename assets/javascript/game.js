@@ -6,7 +6,7 @@ function Character(name, hp, attack, counter, imgFile, audioFile, weaponsArray) 
   this.attackPower = attack;
   this.counter = counter;
   this.imgpath = "assets/"+ gameAssets.gameTheme +"/images/characters/" + imgFile;
-  this.speak = new Audio("assets/"+ gameAssets.gameTheme +"/sounds/" + audioFile);
+  this.taunt = new Audio("assets/"+ gameAssets.gameTheme +"/sounds/" + audioFile);
   this.weaponEffect = function () {
     return new Audio("assets/"+ gameAssets.gameTheme +"/sounds/" + weaponsArray[Math.floor(Math.random() * weaponsArray.length)].toString());
   };
@@ -129,7 +129,7 @@ $(document).ready(function(){
       $(".character").attr("class", "character enemies enemy-characters");
       gameAssets.$instructionsParag.text("Choose your opponent wisely");
       gameAssets.playerLock = true;
-      playerMain.speak.play();
+      playerMain.taunt.play();
 
     }else if(!gameAssets.enemyLock){
 
@@ -140,7 +140,7 @@ $(document).ready(function(){
       opponent = charArray[parseInt($(this).attr('id')) - 1];
       gameAssets.enemyLock = true;
       gameAssets.$attackButton.css("display", "block");
-      opponent.speak.play();
+      opponent.taunt.play();
     }
   });
 
@@ -158,20 +158,25 @@ $(document).ready(function(){
 
     if( gameAssets.$charList.is(':empty')){
 
-      //TODO: Win logic goes here so go nuts I suppose...
+      //Win logic -- Maybe add more to it
+      gameAssets.$enemyReadout.empty();
+      gameAssets.$playerReadout.text("You win! Congratulations");
       gameAssets.$attackButton.css("display", "none");
       gameAssets.$restartButton.css("display", "block");
     }
   });
 
   gameAssets.$restartButton.on('click', function(){
+
     charArray  = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.mp3", gameAssets.weaponEffects["special"]),
       new Character("Boba Fett", 200, 30, 25, "boba.jpg", "boba.mp3", gameAssets.weaponEffects["regular"]),
       new Character("Luke Skywalker", 180, 10, 25, "luke.jpg", "luke.mp3", gameAssets.weaponEffects["special"]),
       new Character("Darth Sidious", 300, 25, 65, "palpatine.jpg", "emperor.mp3", gameAssets.weaponEffects["special"]),
       new Character("Han Solo", 200, 35, 45, "han.jpg", "han.mp3", gameAssets.weaponEffects["regular"]),
       new Character("Ahsoka Tano", 215, 45, 45, "ashoka.jpg", "ashoka.mp3", gameAssets.weaponEffects["special"])];
+
     buildGame(charArray);
+
   });
 
   $("#music-button").click(function() {
