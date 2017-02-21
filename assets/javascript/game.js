@@ -49,8 +49,9 @@ var opponent;
 const $instructionsParag = $("#instructions");
 var enemyLock = false;
 var charLock = false;
-var blasterWeaponEffects = ["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"];
-var saberWeaponEffects = ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"];
+const backgrounds = ["deathstar.jpg", "falcon.jpg", "walker.jpg"];
+const blasterWeaponEffects = ["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"];
+const saberWeaponEffects = ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"];
 var charArray = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.mp3", saberWeaponEffects), new Character("Boba Fett", 200, 30, 25, "boba.jpg", "boba.mp3", blasterWeaponEffects), new Character("Luke Skywalker", 180, 10, 25, "luke.jpg", "luke.mp3", saberWeaponEffects), new Character("Darth Sidious", 300, 25, 65, "palpatine.jpg", "emperor.mp3", saberWeaponEffects), new Character("Han Solo", 150, 30, 45, "han.jpg", "han.mp3", blasterWeaponEffects), new Character("Ahsoka Tano", 140, 55, 45, "ashoka.jpg", "ashoka.mp3", saberWeaponEffects)];
 
 function hardReset() {
@@ -65,6 +66,7 @@ function hardReset() {
 }
 
 function buildGame(obj) {
+  $("body").css("background-image", "url(assets/images/backgrounds/" + backgrounds[Math.floor(Math.random() * backgrounds.length)] + ")");
   hardReset();
   generateChars(obj);
 }
