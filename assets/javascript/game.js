@@ -63,6 +63,18 @@ var playerMain;
 var opponent;
 
 // GameBoard("file-name-directory", "list-background-imgs", "Obj{Regular: Combat Sound Effects(i.e. common weapons), Special: Combat Sound Effects(i.e. lightsaber)}")
+
+// var gameAssets = new GameBoard("pokemon",
+//     ["pokemonHaunt.jpg", "allstars.jpg"],
+//     {"regular":["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"], "special":["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]});
+//
+// var charArray = [new Character("Pikachu", 250, 40, 55, "pikachu.png", "pikachu.wav", gameAssets.weaponEffects["special"]),
+//   new Character("Charizard", 200, 30, 25, "charizard.png", "charizard.mp3", gameAssets.weaponEffects["regular"]),
+//   new Character("Machamp", 180, 10, 25, "machamp.png", "machamp.mp3", gameAssets.weaponEffects["special"]),
+//   new Character("Alakazam", 300, 25, 65, "alakazam.png", "alakazam.mp3", gameAssets.weaponEffects["special"]),
+//   new Character("Blastoise", 200, 35, 45, "blastoise.png", "blastoise.mp3", gameAssets.weaponEffects["regular"]),
+//   new Character("Gengar", 215, 45, 45, "gengar.png", "gengar.mp3", gameAssets.weaponEffects["special"])];
+
 var gameAssets = new GameBoard("starWars",
     ["deathstar.jpg", "falcon.jpg", "walker.jpg"],
     {"regular":["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"], "special":["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]});
@@ -174,6 +186,13 @@ $(document).ready(function(){
       new Character("Darth Sidious", 300, 25, 65, "palpatine.jpg", "emperor.mp3", gameAssets.weaponEffects["special"]),
       new Character("Han Solo", 200, 35, 45, "han.jpg", "han.mp3", gameAssets.weaponEffects["regular"]),
       new Character("Ahsoka Tano", 215, 45, 45, "ashoka.jpg", "ashoka.mp3", gameAssets.weaponEffects["special"])];
+
+    // charArray =  [new Character("Pikachu", 250, 40, 55, "pikachu.png", "pikachu.wav", gameAssets.weaponEffects["special"]),
+    //   new Character("Charizard", 200, 30, 25, "charizard.png", "charizard.mp3", gameAssets.weaponEffects["regular"]),
+    //   new Character("Machamp", 180, 10, 25, "machamp.png", "machamp.mp3", gameAssets.weaponEffects["special"]),
+    //   new Character("Alakazam", 300, 25, 65, "alakazam.png", "alakazam.mp3", gameAssets.weaponEffects["special"]),
+    //   new Character("Blastoise", 200, 35, 45, "blastoise.png", "blastoise.mp3", gameAssets.weaponEffects["regular"]),
+    //   new Character("Gengar", 215, 45, 45, "gengar.png", "gengar.mp3", gameAssets.weaponEffects["special"])];
 
     buildGame(charArray);
 
