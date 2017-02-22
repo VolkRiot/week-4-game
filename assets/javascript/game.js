@@ -75,17 +75,6 @@ var charArray = [new Character("Pikachu", 250, 40, 55, "pikachu.png", "pikachu.w
   new Character("Blastoise", 200, 35, 45, "blastoise.png", "blastoise.mp3", gameAssets.weaponEffects["regular"]),
   new Character("Gengar", 215, 45, 45, "gengar.png", "gengar.mp3", gameAssets.weaponEffects["special"])];
 
-// var gameAssets = new GameBoard("starWars",
-//     ["deathstar.jpg", "falcon.jpg", "walker.jpg"],
-//     {"regular":["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"], "special":["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]});
-//
-// var charArray = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.mp3", gameAssets.weaponEffects["special"]),
-//   new Character("Boba Fett", 200, 30, 25, "boba.jpg", "boba.mp3", gameAssets.weaponEffects["regular"]),
-//   new Character("Luke Skywalker", 180, 10, 25, "luke.jpg", "luke.mp3", gameAssets.weaponEffects["special"]),
-//   new Character("Darth Sidious", 300, 25, 65, "palpatine.jpg", "emperor.mp3", gameAssets.weaponEffects["special"]),
-//   new Character("Han Solo", 200, 35, 45, "han.jpg", "han.mp3", gameAssets.weaponEffects["regular"]),
-//   new Character("Ahsoka Tano", 215, 45, 45, "ashoka.jpg", "ashoka.mp3", gameAssets.weaponEffects["special"])];
-
 function hardReset() {
   gameAssets.playerLock = false;
   gameAssets.enemyLock = false;
@@ -179,13 +168,6 @@ $(document).ready(function(){
   });
 
   gameAssets.$restartButton.on('click', function(){
-
-    // charArray  = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.mp3", gameAssets.weaponEffects["special"]),
-    //   new Character("Boba Fett", 200, 30, 25, "boba.jpg", "boba.mp3", gameAssets.weaponEffects["regular"]),
-    //   new Character("Luke Skywalker", 180, 10, 25, "luke.jpg", "luke.mp3", gameAssets.weaponEffects["special"]),
-    //   new Character("Darth Sidious", 300, 25, 65, "palpatine.jpg", "emperor.mp3", gameAssets.weaponEffects["special"]),
-    //   new Character("Han Solo", 200, 35, 45, "han.jpg", "han.mp3", gameAssets.weaponEffects["regular"]),
-    //   new Character("Ahsoka Tano", 215, 45, 45, "ashoka.jpg", "ashoka.mp3", gameAssets.weaponEffects["special"])];
 
     charArray =  [new Character("Pikachu", 250, 40, 55, "pikachu.png", "pikachu.wav", gameAssets.weaponEffects["special"]),
       new Character("Charizard", 200, 30, 25, "charizard.png", "charizard.mp3", gameAssets.weaponEffects["regular"]),
