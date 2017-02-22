@@ -18,7 +18,10 @@ Character.prototype.fight = function(defender){
   defender.hp -= this.attackPower;
 
   if(defender.hp < 1){
-    opponent.$me.effect("explode", "slow");
+    opponent.$me.effect("explode", "fast");
+
+    //TODO: Add explosion sound effect!!!???? Maybe.
+
     opponent = null;
     gameAssets.enemyLock = false;
     gameAssets.$playerReadout.text("You defeated " + defender.name);
@@ -27,8 +30,8 @@ Character.prototype.fight = function(defender){
     this.hp -= defender.counter;
   }
 
-  $(".player-enemies-container .text-center:last-child").attr('data-hp', defender.hp).text('HP:' + defender.hp);
-  $(".player-character-container .text-center:last-child").attr('data-hp', this.hp).text('HP:' + this.hp);
+  $(".player-enemies-container .text-center:last-child").attr("data-hp", defender.hp).text("HP:" + defender.hp);
+  $(".player-character-container .text-center:last-child").attr("data-hp", this.hp).text("HP:" + this.hp);
   gameAssets.$playerReadout.text("You attacked " + defender.name + " for " + this.attackPower + " damage.");
   gameAssets.$enemyReadout.text(defender.name + " attacked you back for " + defender.counter + " damage.");
 
@@ -67,12 +70,12 @@ var gameAssets = new GameBoard("starWars",
     ["deathstar.jpg", "falcon.jpg", "walker.jpg"],
     {"regular":["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"], "special":["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]});
 
-var charArray = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.mp3", gameAssets.weaponEffects["special"]),
-  new Character("Boba Fett", 200, 30, 25, "boba.jpg", "boba.mp3", gameAssets.weaponEffects["regular"]),
-  new Character("Luke Skywalker", 180, 10, 25, "luke.jpg", "luke.mp3", gameAssets.weaponEffects["special"]),
-  new Character("Darth Sidious", 300, 25, 65, "palpatine.jpg", "emperor.mp3", gameAssets.weaponEffects["special"]),
-  new Character("Han Solo", 200, 35, 45, "han.jpg", "han.mp3", gameAssets.weaponEffects["regular"]),
-  new Character("Ahsoka Tano", 215, 45, 45, "ashoka.jpg", "ashoka.mp3", gameAssets.weaponEffects["special"])];
+var charArray = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.mp3", gameAssets.weaponEffects['special']),
+  new Character("Boba Fett", 200, 30, 25, "boba.jpg", "boba.mp3", gameAssets.weaponEffects['regular']),
+  new Character("Luke Skywalker", 180, 10, 25, "luke.jpg", "luke.mp3", gameAssets.weaponEffects['special']),
+  new Character("Darth Sidious", 300, 25, 65, "palpatine.jpg", "emperor.mp3", gameAssets.weaponEffects['special']),
+  new Character("Han Solo", 200, 35, 45, "han.jpg", "han.mp3", gameAssets.weaponEffects['regular']),
+  new Character("Ahsoka Tano", 215, 45, 45, "ashoka.jpg", "ashoka.mp3", gameAssets.weaponEffects['special'])];
 
 function hardReset() {
   gameAssets.playerLock = false;
@@ -116,7 +119,7 @@ $(document).ready(function(){
 
   buildGame(charArray);
   var mainTheme = new Audio("assets/"+ gameAssets.gameTheme +"/sounds/theme.mp3");
-  mainTheme.volume = 0.05;
+  mainTheme.volume = 0.07;
   mainTheme.play();
 
   gameAssets.$charList.on("click",".character", function(){
@@ -135,16 +138,16 @@ $(document).ready(function(){
 
       gameAssets.$enemiesContainer.empty();
       gameAssets.$enemiesContainer.append($(this));
-      $(this).css('border', '2px solid red');
-      $(this).css('background-color', 'black');
-      opponent = charArray[parseInt($(this).attr('id')) - 1];
+      $(this).css("border", "2px solid red");
+      $(this).css("background-color", "black");
+      opponent = charArray[parseInt($(this).attr("id")) - 1];
       gameAssets.enemyLock = true;
       gameAssets.$attackButton.css("display", "block");
       opponent.taunt.play();
     }
   });
 
-  gameAssets.$attackButton.on('click', function(){
+  gameAssets.$attackButton.on("click", function(){
 
     if(opponent) {
       playerMain.weaponEffect().play();
@@ -156,7 +159,7 @@ $(document).ready(function(){
       playerMain.fight(opponent);
     }
 
-    if( gameAssets.$charList.is(':empty')){
+    if( gameAssets.$charList.is(":empty")){
 
       //Win logic -- Maybe add more to it
       gameAssets.$enemyReadout.empty();
@@ -166,25 +169,21 @@ $(document).ready(function(){
     }
   });
 
-  gameAssets.$restartButton.on('click', function(){
+  gameAssets.$restartButton.on("click", function(){
 
-    charArray  = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.mp3", gameAssets.weaponEffects["special"]),
-      new Character("Boba Fett", 200, 30, 25, "boba.jpg", "boba.mp3", gameAssets.weaponEffects["regular"]),
-      new Character("Luke Skywalker", 180, 10, 25, "luke.jpg", "luke.mp3", gameAssets.weaponEffects["special"]),
-      new Character("Darth Sidious", 300, 25, 65, "palpatine.jpg", "emperor.mp3", gameAssets.weaponEffects["special"]),
-      new Character("Han Solo", 200, 35, 45, "han.jpg", "han.mp3", gameAssets.weaponEffects["regular"]),
-      new Character("Ahsoka Tano", 215, 45, 45, "ashoka.jpg", "ashoka.mp3", gameAssets.weaponEffects["special"])];
+    charArray  = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.mp3", gameAssets.weaponEffects['special']),
+      new Character("Boba Fett", 200, 30, 25, "boba.jpg", "boba.mp3", gameAssets.weaponEffects['regular']),
+      new Character("Luke Skywalker", 180, 10, 25, "luke.jpg", "luke.mp3", gameAssets.weaponEffects['special']),
+      new Character("Darth Sidious", 300, 25, 65, "palpatine.jpg", "emperor.mp3", gameAssets.weaponEffects['special']),
+      new Character("Han Solo", 200, 35, 45, "han.jpg", "han.mp3", gameAssets.weaponEffects['regular']),
+      new Character("Ahsoka Tano", 215, 45, 45, "ashoka.jpg", "ashoka.mp3", gameAssets.weaponEffects['special'])];
 
     buildGame(charArray);
 
   });
 
   $("#music-button").click(function() {
-    if (mainTheme.paused == false) {
-      mainTheme.pause();
-    } else {
-      mainTheme.play();
-    }
+    mainTheme.paused ? mainTheme.play(): mainTheme.pause();
   });
 
 });
