@@ -48,6 +48,7 @@ Character.prototype.fight = function(defender){
 
 function GameBoard(theme, backgroundsArray, weaponEffectObj) {
   this.gameTheme = theme;
+  this.musicTheme = new Audio("assets/"+ this.gameTheme +"/sounds/theme.mp3");
   this.backgrounds = backgroundsArray;
   this.weaponEffects = weaponEffectObj;
   this.enemyLock = false;
@@ -60,6 +61,7 @@ function GameBoard(theme, backgroundsArray, weaponEffectObj) {
   this.$restartButton = $("#restart-button");
   this.$playerReadout = $("#player-actions-readout");
   this.$enemyReadout = $("#enemy-actions-readout");
+  this.$musicButton = $("#music-button");
 }
 
 var playerMain;
@@ -118,9 +120,8 @@ function generateChars(objList) {
 $(document).ready(function(){
 
   buildGame(charArray);
-  var mainTheme = new Audio("assets/"+ gameAssets.gameTheme +"/sounds/theme.mp3");
-  mainTheme.volume = 0.07;
-  mainTheme.play();
+  gameAssets.musicTheme.volume = 0.07;
+  gameAssets.musicTheme.play();
 
   gameAssets.$charList.on("click",".character", function(){
 
@@ -182,8 +183,8 @@ $(document).ready(function(){
 
   });
 
-  $("#music-button").click(function() {
-    mainTheme.paused ? mainTheme.play(): mainTheme.pause();
+  gameAssets.$musicButton.click(function() {
+    gameAssets.musicTheme.paused ? gameAssets.musicTheme.play(): gameAssets.musicTheme.pause();
   });
 
 });
