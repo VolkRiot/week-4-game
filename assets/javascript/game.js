@@ -18,7 +18,10 @@ Character.prototype.fight = function(defender){
   defender.hp -= this.attackPower;
 
   if(defender.hp < 1){
-    opponent.$me.effect("explode", "slow");
+    opponent.$me.effect("explode", "fast");
+
+    //TODO: Add explosion sound effect!!!???? Maybe.
+
     opponent = null;
     gameAssets.enemyLock = false;
     gameAssets.$playerReadout.text("You defeated " + defender.name);
@@ -27,8 +30,8 @@ Character.prototype.fight = function(defender){
     this.hp -= defender.counter;
   }
 
-  $(".player-enemies-container .text-center:last-child").attr('data-hp', defender.hp).text('HP:' + defender.hp);
-  $(".player-character-container .text-center:last-child").attr('data-hp', this.hp).text('HP:' + this.hp);
+  $(".player-enemies-container .text-center:last-child").attr("data-hp", defender.hp).text("HP:" + defender.hp);
+  $(".player-character-container .text-center:last-child").attr("data-hp", this.hp).text("HP:" + this.hp);
   gameAssets.$playerReadout.text("You attacked " + defender.name + " for " + this.attackPower + " damage.");
   gameAssets.$enemyReadout.text(defender.name + " attacked you back for " + defender.counter + " damage.");
 
@@ -45,6 +48,7 @@ Character.prototype.fight = function(defender){
 
 function GameBoard(theme, backgroundsArray, weaponEffectObj) {
   this.gameTheme = theme;
+  this.musicTheme = new Audio("assets/"+ this.gameTheme +"/sounds/theme.mp3");
   this.backgrounds = backgroundsArray;
   this.weaponEffects = weaponEffectObj;
   this.enemyLock = false;
@@ -57,6 +61,7 @@ function GameBoard(theme, backgroundsArray, weaponEffectObj) {
   this.$restartButton = $("#restart-button");
   this.$playerReadout = $("#player-actions-readout");
   this.$enemyReadout = $("#enemy-actions-readout");
+  this.$musicButton = $("#music-button");
 }
 
 var playerMain;
@@ -68,12 +73,16 @@ var gameAssets = new GameBoard("pokemon",
     ["pokemonHaunt.jpg", "allstars.jpg"],
     {"regular":["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"], "special":["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]});
 
-var charArray = [new Character("Pikachu", 250, 40, 55, "pikachu.png", "pikachu.wav", gameAssets.weaponEffects["special"]),
+var orgCharArray = [new Character("Pikachu", 250, 40, 55, "pikachu.png", "pikachu.wav", gameAssets.weaponEffects["special"]),
   new Character("Charizard", 200, 30, 25, "charizard.png", "charizard.mp3", gameAssets.weaponEffects["regular"]),
   new Character("Machamp", 180, 10, 25, "machamp.png", "machamp.mp3", gameAssets.weaponEffects["special"]),
   new Character("Alakazam", 300, 25, 65, "alakazam.png", "alakazam.mp3", gameAssets.weaponEffects["special"]),
   new Character("Blastoise", 200, 35, 45, "blastoise.png", "blastoise.mp3", gameAssets.weaponEffects["regular"]),
   new Character("Gengar", 215, 45, 45, "gengar.png", "gengar.mp3", gameAssets.weaponEffects["special"])];
+
+var charArray = $.map(orgCharArray, function (obj) {
+  return $.extend(true, {}, obj);
+});
 
 function hardReset() {
   gameAssets.playerLock = false;
@@ -116,9 +125,8 @@ function generateChars(objList) {
 $(document).ready(function(){
 
   buildGame(charArray);
-  var mainTheme = new Audio("assets/"+ gameAssets.gameTheme +"/sounds/theme.mp3");
-  mainTheme.volume = 0.05;
-  mainTheme.play();
+  gameAssets.musicTheme.volume = 0.07;
+  gameAssets.musicTheme.play();
 
   gameAssets.$charList.on("click",".character", function(){
 
@@ -136,16 +144,16 @@ $(document).ready(function(){
 
       gameAssets.$enemiesContainer.empty();
       gameAssets.$enemiesContainer.append($(this));
-      $(this).css('border', '2px solid red');
-      $(this).css('background-color', 'black');
-      opponent = charArray[parseInt($(this).attr('id')) - 1];
+      $(this).css("border", "2px solid red");
+      $(this).css("background-color", "black");
+      opponent = charArray[parseInt($(this).attr("id")) - 1];
       gameAssets.enemyLock = true;
       gameAssets.$attackButton.css("display", "block");
       opponent.taunt.play();
     }
   });
 
-  gameAssets.$attackButton.on('click', function(){
+  gameAssets.$attackButton.on("click", function(){
 
     if(opponent) {
       playerMain.weaponEffect().play();
@@ -157,7 +165,7 @@ $(document).ready(function(){
       playerMain.fight(opponent);
     }
 
-    if( gameAssets.$charList.is(':empty')){
+    if(gameAssets.$charList.is(":empty")){
 
       //Win logic -- Maybe add more to it
       gameAssets.$enemyReadout.empty();
@@ -167,25 +175,19 @@ $(document).ready(function(){
     }
   });
 
-  gameAssets.$restartButton.on('click', function(){
+  gameAssets.$restartButton.on("click", function(){
 
-    charArray =  [new Character("Pikachu", 250, 40, 55, "pikachu.png", "pikachu.wav", gameAssets.weaponEffects["special"]),
-      new Character("Charizard", 200, 30, 25, "charizard.png", "charizard.mp3", gameAssets.weaponEffects["regular"]),
-      new Character("Machamp", 180, 10, 25, "machamp.png", "machamp.mp3", gameAssets.weaponEffects["special"]),
-      new Character("Alakazam", 300, 25, 65, "alakazam.png", "alakazam.mp3", gameAssets.weaponEffects["special"]),
-      new Character("Blastoise", 200, 35, 45, "blastoise.png", "blastoise.mp3", gameAssets.weaponEffects["regular"]),
-      new Character("Gengar", 215, 45, 45, "gengar.png", "gengar.mp3", gameAssets.weaponEffects["special"])];
+    // A deep copy of the array of objects code
+    charArray = $.map(orgCharArray, function (obj) {
+      return $.extend(true, {}, obj);
+    });
 
     buildGame(charArray);
 
   });
 
-  $("#music-button").click(function() {
-    if (mainTheme.paused == false) {
-      mainTheme.pause();
-    } else {
-      mainTheme.play();
-    }
+  gameAssets.$musicButton.click(function() {
+    gameAssets.musicTheme.paused ? gameAssets.musicTheme.play(): gameAssets.musicTheme.pause();
   });
 
 });
