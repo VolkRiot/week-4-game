@@ -164,7 +164,7 @@ $(document).ready(function(){
       playerMain.fight(opponent);
     }
 
-    if( gameAssets.$charList.is(":empty")){
+    if(gameAssets.$charList.is(":empty")){
 
       //Win logic -- Maybe add more to it
       gameAssets.$enemyReadout.empty();
