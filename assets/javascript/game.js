@@ -1,5 +1,5 @@
 
-function Character(name, hp, attack, counter, imgFile, audioFile, weaponsArray) {
+function Character(name, hp, attack, counter, imgFile, audioFile, weaponsEffectObj) {
   this.name = name;
   this.hp = hp;
   this.baseAttack = attack;
@@ -7,8 +7,9 @@ function Character(name, hp, attack, counter, imgFile, audioFile, weaponsArray) 
   this.counter = counter;
   this.imgpath = "assets/"+ gameAssets.gameTheme +"/images/characters/" + imgFile;
   this.taunt = new Audio("assets/"+ gameAssets.gameTheme +"/sounds/" + audioFile);
+  this.weaponEffects = weaponsEffectObj;
   this.weaponEffect = function () {
-    return new Audio("assets/"+ gameAssets.gameTheme +"/sounds/" + weaponsArray[Math.floor(Math.random() * weaponsArray.length)].toString());
+    return new Audio("assets/"+ gameAssets.gameTheme +"/sounds/" + this.weaponEffects[Math.floor(Math.random() * this.weaponEffects.length)].toString());
   };
   this.$me;
 }
@@ -46,14 +47,12 @@ Character.prototype.fight = function(defender){
   }
 };
 
-function GameBoard(theme, backgroundsArray, weaponEffectObj) {
+function GameBoard(theme, backgroundsArray) {
   this.gameTheme = theme;
   this.musicTheme = new Audio("assets/"+ this.gameTheme +"/sounds/theme.mp3");
   this.backgrounds = backgroundsArray;
-  this.weaponEffects = weaponEffectObj;
   this.enemyLock = false;
   this.playerLock = false;
-  this.$gameBoardContainer = $("#main-game");
   this.$instructionsParag = $("#instructions");
   this.$charList = $("#characters-list");
   this.$enemiesContainer = $(".player-enemies-container");
@@ -62,25 +61,19 @@ function GameBoard(theme, backgroundsArray, weaponEffectObj) {
   this.$restartButton = $("#restart-button");
   this.$playerReadout = $("#player-actions-readout");
   this.$enemyReadout = $("#enemy-actions-readout");
-  this.$musicButton = $("#music-button");
 }
+
+var starWarsGameAssets = new GameBoard("star-wars", ["deathstar.jpg", "falcon.jpg", "walker.jpg"]);
+var starWarsCharArray;
+
+var pokemonGameAssets = new GameBoard("pokemon", ["pokemonHaunt.jpg", "allstars.jpg"]);
+var pokemonCharArray;
+
+var gameAssets;
+var charArray;
 
 var playerMain;
 var opponent;
-var charArray = {};
-
-// GameBoard("file-name-directory", "list-background-imgs", "Obj{Regular: Combat Sound Effects(i.e. common weapons), Special: Combat Sound Effects(i.e. lightsaber)}")
-
-var gameAssets = new GameBoard("pokemon",
-    ["pokemonHaunt.jpg", "allstars.jpg"],
-    {"regular":["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"], "special":["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]});
-
-var pokemonCharArray = [new Character("Pikachu", 250, 40, 55, "pikachu.png", "pikachu.wav", gameAssets.weaponEffects["special"]),
-  new Character("Charizard", 200, 30, 25, "charizard.png", "charizard.mp3", gameAssets.weaponEffects["regular"]),
-  new Character("Machamp", 180, 10, 25, "machamp.png", "machamp.mp3", gameAssets.weaponEffects["special"]),
-  new Character("Alakazam", 300, 25, 65, "alakazam.png", "alakazam.mp3", gameAssets.weaponEffects["special"]),
-  new Character("Blastoise", 200, 35, 45, "blastoise.png", "blastoise.mp3", gameAssets.weaponEffects["regular"]),
-  new Character("Gengar", 215, 45, 45, "gengar.png", "gengar.mp3", gameAssets.weaponEffects["special"])];
 
 function hardReset() {
   gameAssets.playerLock = false;
@@ -129,28 +122,55 @@ function generateChars(objList) {
 
 $(document).ready(function(){
 
-  gameAssets.$gameBoardContainer.hide();
-
+  //$('#main-game').hide();
 
   $('.theme-button').on('click', function () {
 
     if($(this).attr('id') == 'pokemon'){
+
+      //$('#main-game').hide();
+
+      gameAssets = pokemonGameAssets;
+
+        pokemonCharArray = [new Character("Pikachu", 250, 40, 55, "pikachu.png", "pikachu.wav", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
+        new Character("Charizard", 200, 30, 25, "charizard.png", "charizard.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
+        new Character("Machamp", 180, 10, 25, "machamp.png", "machamp.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
+        new Character("Alakazam", 300, 25, 65, "alakazam.png", "alakazam.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
+        new Character("Blastoise", 200, 35, 45, "blastoise.png", "blastoise.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
+        new Character("Gengar", 215, 45, 45, "gengar.png", "gengar.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"])];
+
         charArray = $.map(pokemonCharArray, function (obj) {
+        return $.extend(true, {}, obj);
+
+        });
+    }
+
+    if($(this).attr('id') == 'star-wars'){
+
+      //$('#main-game').hide();
+
+      gameAssets = starWarsGameAssets;
+
+        starWarsCharArray = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
+        new Character("Boba Fett", 200, 30, 25, "boba.jpg", "boba.mp3", ["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"]),
+        new Character("Luke Skywalker", 180, 10, 25, "luke.jpg", "luke.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
+        new Character("Darth Sidious", 300, 25, 65, "palpatine.jpg", "emperor.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
+        new Character("Han Solo", 200, 35, 45, "han.jpg", "han.mp3", ["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"]),
+        new Character("Ahsoka Tano", 215, 45, 45, "ashoka.jpg", "ashoka.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"])];
+
+      charArray = $.map(starWarsCharArray, function (obj) {
         return $.extend(true, {}, obj);
       });
     }
 
     buildGame(charArray);
 
-    $("#chooser").hide();
-    gameAssets.$gameBoardContainer.show();
+    $("#choose-game").hide();
+    $("#main-game").show();
 
   });
 
-
-
-
-  gameAssets.$charList.on("click",".character", function(){
+  $("#characters-list").on("click",".character", function(){
 
     if(!gameAssets.playerLock){
 
@@ -175,7 +195,7 @@ $(document).ready(function(){
     }
   });
 
-  gameAssets.$attackButton.on("click", function(){
+  $('#attack-button').on("click", function(){
 
     if(opponent) {
       playerMain.weaponEffect().play();
@@ -197,19 +217,31 @@ $(document).ready(function(){
     }
   });
 
-  gameAssets.$restartButton.on("click", function(){
+  $('#restart-button').on("click", function(){
 
     // A deep copy of the array of objects code
     // Maps the objects in orgChartArray to the function $.extend which itself deep copies the object into an empty container recursively
-    charArray = $.map(pokemonCharArray, function (obj) {
-      return $.extend(true, {}, obj);
-    });
+
+    switch (gameAssets.gameTheme){
+
+      case "star-wars":
+        charArray = $.map(starWarsCharArray, function (obj) {
+          return $.extend(true, {}, obj);
+        });
+        break;
+
+      case "pokemon":
+        charArray = $.map(pokemonCharArray, function (obj) {
+          return $.extend(true, {}, obj);
+        });
+        break;
+    }
 
     buildGame(charArray);
 
   });
 
-  gameAssets.$musicButton.click(function() {
+  $('#music-button').click(function() {
     gameAssets.musicTheme.paused ? gameAssets.musicTheme.play(): gameAssets.musicTheme.pause();
   });
 
