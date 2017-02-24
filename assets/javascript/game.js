@@ -53,6 +53,7 @@ function GameBoard(theme, backgroundsArray, weaponEffectObj) {
   this.weaponEffects = weaponEffectObj;
   this.enemyLock = false;
   this.playerLock = false;
+  this.$gameBoardContainer = $("#main-game");
   this.$instructionsParag = $("#instructions");
   this.$charList = $("#characters-list");
   this.$enemiesContainer = $(".player-enemies-container");
@@ -66,6 +67,7 @@ function GameBoard(theme, backgroundsArray, weaponEffectObj) {
 
 var playerMain;
 var opponent;
+var charArray = {};
 
 // GameBoard("file-name-directory", "list-background-imgs", "Obj{Regular: Combat Sound Effects(i.e. common weapons), Special: Combat Sound Effects(i.e. lightsaber)}")
 
@@ -73,16 +75,12 @@ var gameAssets = new GameBoard("pokemon",
     ["pokemonHaunt.jpg", "allstars.jpg"],
     {"regular":["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"], "special":["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]});
 
-var orgCharArray = [new Character("Pikachu", 250, 40, 55, "pikachu.png", "pikachu.wav", gameAssets.weaponEffects["special"]),
+var pokemonCharArray = [new Character("Pikachu", 250, 40, 55, "pikachu.png", "pikachu.wav", gameAssets.weaponEffects["special"]),
   new Character("Charizard", 200, 30, 25, "charizard.png", "charizard.mp3", gameAssets.weaponEffects["regular"]),
   new Character("Machamp", 180, 10, 25, "machamp.png", "machamp.mp3", gameAssets.weaponEffects["special"]),
   new Character("Alakazam", 300, 25, 65, "alakazam.png", "alakazam.mp3", gameAssets.weaponEffects["special"]),
   new Character("Blastoise", 200, 35, 45, "blastoise.png", "blastoise.mp3", gameAssets.weaponEffects["regular"]),
   new Character("Gengar", 215, 45, 45, "gengar.png", "gengar.mp3", gameAssets.weaponEffects["special"])];
-
-var charArray = $.map(orgCharArray, function (obj) {
-  return $.extend(true, {}, obj);
-});
 
 function hardReset() {
   gameAssets.playerLock = false;
@@ -95,10 +93,17 @@ function hardReset() {
   gameAssets.$instructionsParag.text("Choose your player character below");
 }
 
-function buildGame(obj) {
+function assembleTheme() {
   $("body").css("background-image", "url(assets/"+ gameAssets.gameTheme +"/images/backgrounds/" + gameAssets.backgrounds[Math.floor(Math.random() * gameAssets.backgrounds.length)] + ")");
+  gameAssets.musicTheme.volume = 0.07;
+  gameAssets.musicTheme.play();
+}
+
+function buildGame(obj) {
+
   hardReset();
   generateChars(obj);
+  assembleTheme();
 }
 
 function generateChars(objList) {
@@ -124,9 +129,26 @@ function generateChars(objList) {
 
 $(document).ready(function(){
 
-  buildGame(charArray);
-  gameAssets.musicTheme.volume = 0.07;
-  gameAssets.musicTheme.play();
+  gameAssets.$gameBoardContainer.hide();
+
+
+  $('.theme-button').on('click', function () {
+
+    if($(this).attr('id') == 'pokemon'){
+        charArray = $.map(pokemonCharArray, function (obj) {
+        return $.extend(true, {}, obj);
+      });
+    }
+
+    buildGame(charArray);
+
+    $("#chooser").hide();
+    gameAssets.$gameBoardContainer.show();
+
+  });
+
+
+
 
   gameAssets.$charList.on("click",".character", function(){
 
@@ -178,7 +200,8 @@ $(document).ready(function(){
   gameAssets.$restartButton.on("click", function(){
 
     // A deep copy of the array of objects code
-    charArray = $.map(orgCharArray, function (obj) {
+    // Maps the objects in orgChartArray to the function $.extend which itself deep copies the object into an empty container recursively
+    charArray = $.map(pokemonCharArray, function (obj) {
       return $.extend(true, {}, obj);
     });
 
