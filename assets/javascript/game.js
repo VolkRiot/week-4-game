@@ -122,13 +122,9 @@ function generateChars(objList) {
 
 $(document).ready(function(){
 
-  //$('#main-game').hide();
-
   $('.theme-button').on('click', function () {
 
     if($(this).attr('id') == 'pokemon'){
-
-      //$('#main-game').hide();
 
       gameAssets = pokemonGameAssets;
 
@@ -147,8 +143,6 @@ $(document).ready(function(){
 
     if($(this).attr('id') == 'star-wars'){
 
-      //$('#main-game').hide();
-
       gameAssets = starWarsGameAssets;
 
         starWarsCharArray = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
@@ -166,7 +160,7 @@ $(document).ready(function(){
     buildGame(charArray);
 
     $("#choose-game").hide();
-    $("#main-game").show();
+    $("#main-game").css('display', 'block');
 
   });
 
