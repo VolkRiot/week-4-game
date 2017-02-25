@@ -1,17 +1,33 @@
 
 function Character(name, hp, attack, counter, imgFile, audioFile, weaponsEffectObj) {
-  this.name = name;
+  this.name = name[0];
   this.hp = hp;
   this.baseAttack = attack;
   this.attackPower = attack;
   this.counter = counter;
-  this.imgpath = "assets/"+ gameAssets.gameTheme +"/images/characters/" + imgFile;
+  this.imgpath = "assets/"+ gameAssets.gameTheme +"/images/characters/" + imgFile[0];
   this.taunt = new Audio("assets/"+ gameAssets.gameTheme +"/sounds/" + audioFile);
   this.weaponEffects = weaponsEffectObj;
-  this.weaponEffect = function () {
-    return new Audio("assets/"+ gameAssets.gameTheme +"/sounds/" + this.weaponEffects[Math.floor(Math.random() * this.weaponEffects.length)].toString());
-  };
+  this.imgIndex = 0;
   this.$me;
+  this.transform = function () {
+    if(((imgFile.length > 1) && ((this.attackPower / this.baseAttack) % 4) == 0 ) && (this.imgIndex < imgFile.length)){
+      this.imgIndex++;
+      this.imgpath = "assets/"+ gameAssets.gameTheme +"/images/characters/" + imgFile[this.imgIndex];
+      this.name = name[this.imgIndex];
+      return true;
+    }
+    return false;
+  };
+  this.weaponEffect = function () {
+    var audio = new Audio("assets/"+ gameAssets.gameTheme +"/sounds/" + this.weaponEffects[Math.floor(Math.random() * this.weaponEffects.length)].toString());
+    audio.volume = 0.2;
+    return audio;
+  };
+  this.updateSelf = function () {
+    this.$me.children('.img-responsive').attr("src", this.imgpath).attr("alt", this.name);
+    this.$me.children('.creature-name').text(this.name);
+  }
 }
 
 Character.prototype.fight = function(defender){
@@ -44,6 +60,8 @@ Character.prototype.fight = function(defender){
     gameAssets.$enemyReadout.empty();
     gameAssets.$restartButton.css("display", "block");
     this.$me.effect("puff", "slow");
+  }else if(this.transform()){
+    this.updateSelf();
   }
 };
 
@@ -82,6 +100,8 @@ function hardReset() {
   gameAssets.$enemiesContainer.empty();
   gameAssets.$playerContainer.empty();
   gameAssets.$charList.empty();
+  gameAssets.$playerReadout.empty();
+  gameAssets.$enemyReadout.empty();
   gameAssets.musicTheme.currentTime = 0;
   gameAssets.$attackButton.css("display", "none");
   gameAssets.$restartButton.css("display", "none");
@@ -112,7 +132,7 @@ function generateChars(objList) {
     charItem.attr("data-hp", objList[i].hp);
     charItem.attr("data-attack", objList[i].attackPower);
 
-    charItem.append($("<p class='text-center'>").text(objList[i].name));
+    charItem.append($("<p class='text-center creature-name'>").text(objList[i].name));
     charItem.append($("<img class='img-responsive'>").attr("src", objList[i].imgpath).attr("alt", objList[i].name));
     charItem.append($("<p class='text-center'>").text("HP:" + objList[i].hp));
 
@@ -130,12 +150,12 @@ $(document).ready(function(){
 
       gameAssets = pokemonGameAssets;
 
-        pokemonCharArray = [new Character("Pikachu", 250, 40, 55, "pikachu.png", "pikachu.wav", pokemonsSoundsArray),
-        new Character("Charizard", 200, 30, 25, "charizard.png", "charizard.mp3", pokemonsSoundsArray),
-        new Character("Machamp", 180, 10, 25, "machamp.png", "machamp.mp3", pokemonsSoundsArray),
-        new Character("Alakazam", 300, 25, 65, "alakazam.png", "alakazam.mp3", pokemonsSoundsArray),
-        new Character("Blastoise", 200, 35, 45, "blastoise.png", "blastoise.mp3", pokemonsSoundsArray),
-        new Character("Gengar", 215, 45, 45, "gengar.png", "gengar.mp3", pokemonsSoundsArray)];
+        pokemonCharArray = [new Character(["Pikachu"], 250, 40, 55, ["pikachu.png"], "pikachu.wav", pokemonsSoundsArray),
+        new Character(["Charamander", "Charmeleon", "Charizard"], 200, 30, 25, ["charamander.png","charmeleon.png","charizard.png"], "charizard.mp3", pokemonsSoundsArray),
+        new Character(["Machop", "Machoke", "Machamp"], 180, 25, 25, ["machop.png","machoke.png","machamp.png"], "machamp.mp3", pokemonsSoundsArray),
+        new Character(["Abra", "Kadabra","Alakazam"], 300, 25, 65, ["abra.png", "kadabra.png","alakazam.png"], "alakazam.mp3", pokemonsSoundsArray),
+        new Character(["Squirtle", "Wartotle", "Blastoise"], 200, 35, 45, ["squirtle.png", "wartotle.png", "blastoise.png"], "blastoise.mp3", pokemonsSoundsArray),
+        new Character(["Gastly","Haunter", "Gengar"], 215, 35, 45, ["gastly.png","haunter.png" ,"gengar.png"], "gengar.mp3", pokemonsSoundsArray)];
 
         charArray = $.map(pokemonCharArray, function (obj) {
         return $.extend(true, {}, obj);
@@ -147,12 +167,12 @@ $(document).ready(function(){
 
       gameAssets = starWarsGameAssets;
 
-        starWarsCharArray = [new Character("Darth Vader", 250, 40, 55, "vader.jpg", "vader.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
-        new Character("Boba Fett", 200, 30, 25, "boba.jpg", "boba.mp3", ["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"]),
-        new Character("Luke Skywalker", 180, 10, 25, "luke.jpg", "luke.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
-        new Character("Darth Sidious", 300, 25, 65, "palpatine.jpg", "emperor.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
-        new Character("Han Solo", 200, 35, 45, "han.jpg", "han.mp3", ["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"]),
-        new Character("Ahsoka Tano", 215, 45, 45, "ashoka.jpg", "ashoka.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"])];
+        starWarsCharArray = [new Character(["Darth Vader"], 250, 40, 55, ["vader.jpg"], "vader.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
+        new Character(["Boba Fett"], 200, 30, 25, ["boba.jpg"], "boba.mp3", ["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"]),
+        new Character(["Luke Skywalker"], 180, 20, 25, ["luke.jpg"], "luke.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
+        new Character(["Darth Sidious"], 300, 25, 65, ["palpatine.jpg"], "emperor.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
+        new Character(["Han Solo"], 200, 35, 45, ["han.jpg"], ["han.mp3"], ["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"]),
+        new Character(["Ahsoka Tano"], 215, 45, 45, ["ashoka.jpg"], "ashoka.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"])];
 
       charArray = $.map(starWarsCharArray, function (obj) {
         return $.extend(true, {}, obj);
