@@ -59,6 +59,12 @@ p.text-center{
 }
 #stats-column{
     left: 1%;
+    margin-top: 5%;
+}
+
+#bottom-row{
+     margin-top: 2%;
+     margin-bottom: 5%;
 }
 
 #attack-button{

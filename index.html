@@ -18,12 +18,12 @@
 <body>
 <div class="container" id="choose-game">
   <div class="jumbotron text-center">
-    <h1 class="display-3">Choose a Theme!</h1>
+    <h1 class="display-3">Choose a Theme</h1>
     <p class="lead">This is a simple RPG Game created with the help of jQuery libraries</p>
     <hr class="my-4">
     <p class="lead">
       <a class="btn btn-primary btn-lg theme-button" href="#" role="button" id="star-wars">Star Wars</a>
-      <a class="btn btn-primary btn-lg theme-button" href="#" role="button" id="pokemon">Pokemon</a>
+      <a class="btn btn-warning btn-lg theme-button" href="#" role="button" id="pokemon">Pokemon</a>
     </p>
   </div>
 </div>
@@ -50,19 +50,20 @@
   <div class="row">
     <div class="col-md-2"><p class="h4">Your Character</p><div class="player-character-container"></div></div>
     <div class="col-md-2"><p class="h4">Defender</p><div class="player-enemies-container"></div></div>
-    <div class="col-md-8"></div>
+    <div class="col-md-8">
+      <div class="row"></div>
+      <div class="row">
+        <div class="col-md-12" id="stats-column">
+          <p class="h4" id="player-actions-readout"></p>
+          <p class="h4" id="enemy-actions-readout"></p>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="row">
+  <div class="row" id="bottom-row">
     <div class="col-md-2">
       <button class="btn btn-danger" id="attack-button">Attack!</button>
       <button class="btn btn-warning" id="restart-button">Restart</button>
-    </div>
-    <div class="col-md-8"></div>
-    <div class="row">
-      <div class="col-md-12" id="stats-column">
-        <p class="h4" id="player-actions-readout"></p>
-        <p class="h4" id="enemy-actions-readout"></p>
-      </div>
     </div>
   </div>
 </div>
