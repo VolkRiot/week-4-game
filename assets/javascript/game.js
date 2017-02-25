@@ -67,6 +67,7 @@ var starWarsGameAssets = new GameBoard("star-wars", ["deathstar.jpg", "falcon.jp
 var starWarsCharArray;
 
 var pokemonGameAssets = new GameBoard("pokemon", ["pokemonHaunt.jpg", "allstars.jpg"]);
+var pokemonsSoundsArray = ["lightning.mp3", "roar.mp3", "slash.mp3", "wobble.mp3", "pummel.mp3"];
 var pokemonCharArray;
 
 var gameAssets;
@@ -81,6 +82,7 @@ function hardReset() {
   gameAssets.$enemiesContainer.empty();
   gameAssets.$playerContainer.empty();
   gameAssets.$charList.empty();
+  gameAssets.musicTheme.currentTime = 0;
   gameAssets.$attackButton.css("display", "none");
   gameAssets.$restartButton.css("display", "none");
   gameAssets.$instructionsParag.text("Choose your player character below");
@@ -128,12 +130,12 @@ $(document).ready(function(){
 
       gameAssets = pokemonGameAssets;
 
-        pokemonCharArray = [new Character("Pikachu", 250, 40, 55, "pikachu.png", "pikachu.wav", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
-        new Character("Charizard", 200, 30, 25, "charizard.png", "charizard.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
-        new Character("Machamp", 180, 10, 25, "machamp.png", "machamp.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
-        new Character("Alakazam", 300, 25, 65, "alakazam.png", "alakazam.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
-        new Character("Blastoise", 200, 35, 45, "blastoise.png", "blastoise.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
-        new Character("Gengar", 215, 45, 45, "gengar.png", "gengar.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"])];
+        pokemonCharArray = [new Character("Pikachu", 250, 40, 55, "pikachu.png", "pikachu.wav", pokemonsSoundsArray),
+        new Character("Charizard", 200, 30, 25, "charizard.png", "charizard.mp3", pokemonsSoundsArray),
+        new Character("Machamp", 180, 10, 25, "machamp.png", "machamp.mp3", pokemonsSoundsArray),
+        new Character("Alakazam", 300, 25, 65, "alakazam.png", "alakazam.mp3", pokemonsSoundsArray),
+        new Character("Blastoise", 200, 35, 45, "blastoise.png", "blastoise.mp3", pokemonsSoundsArray),
+        new Character("Gengar", 215, 45, 45, "gengar.png", "gengar.mp3", pokemonsSoundsArray)];
 
         charArray = $.map(pokemonCharArray, function (obj) {
         return $.extend(true, {}, obj);
