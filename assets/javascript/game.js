@@ -169,7 +169,7 @@ $(document).ready(function(){
 
         starWarsCharArray = [new Character(["Darth Vader"], 250, 40, 55, ["vader.jpg"], "vader.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
         new Character(["Boba Fett"], 200, 30, 25, ["boba.jpg"], "boba.mp3", ["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"]),
-        new Character(["Luke Skywalker"], 180, 20, 25, ["luke.jpg"], "luke.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
+        new Character(["Luke Skywalker"], 190, 37.5, 30, ["luke.jpg"], "luke.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
         new Character(["Darth Sidious"], 300, 25, 65, ["palpatine.jpg"], "emperor.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"]),
         new Character(["Han Solo"], 200, 35, 45, ["han.jpg"], ["han.mp3"], ["blaster1.mp3", "blaster2.mp3", "blaster3.mp3"]),
         new Character(["Ahsoka Tano"], 215, 45, 45, ["ashoka.jpg"], "ashoka.mp3", ["saber1.mp3", "saber2.mp3", "saber3.mp3", "saber4.mp3", "saber5.mp3"])];
