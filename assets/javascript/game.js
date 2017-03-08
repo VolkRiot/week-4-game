@@ -5,29 +5,12 @@ function Character(name, hp, attack, counter, imgFile, audioFile, weaponsEffectO
   this.baseAttack = attack;
   this.attackPower = attack;
   this.counter = counter;
+  this.imgArray = imgFile;
   this.imgpath = "assets/"+ gameAssets.gameTheme +"/images/characters/" + imgFile[0];
   this.taunt = new Audio("assets/"+ gameAssets.gameTheme +"/sounds/" + audioFile);
   this.weaponEffects = weaponsEffectObj;
   this.imgIndex = 0;
   this.$me;
-  this.transform = function () {
-    if(((imgFile.length > 1) && ((this.attackPower / this.baseAttack) % 4) == 0 ) && (this.imgIndex < imgFile.length)){
-      this.imgIndex++;
-      this.imgpath = "assets/"+ gameAssets.gameTheme +"/images/characters/" + imgFile[this.imgIndex];
-      this.name = name[this.imgIndex];
-      return true;
-    }
-    return false;
-  };
-  this.weaponEffect = function () {
-    var audio = new Audio("assets/"+ gameAssets.gameTheme +"/sounds/" + this.weaponEffects[Math.floor(Math.random() * this.weaponEffects.length)].toString());
-    audio.volume = 0.2;
-    return audio;
-  };
-  this.updateSelf = function () {
-    this.$me.children('.img-responsive').attr("src", this.imgpath).attr("alt", this.name);
-    this.$me.children('.creature-name').text(this.name);
-  }
 }
 
 Character.prototype.fight = function(defender){
@@ -64,6 +47,27 @@ Character.prototype.fight = function(defender){
     this.updateSelf();
   }
 };
+
+Character.prototype.transform = function () {
+  if(((this.imgArray.length > 1) && ((this.attackPower / this.baseAttack) % 4) == 0 ) && (this.imgIndex < this.imgArray.length)){
+    this.imgIndex++;
+    this.imgpath = "assets/"+ gameAssets.gameTheme +"/images/characters/" + this.imgArray[this.imgIndex];
+    this.name = name[this.imgIndex];
+    return true;
+  }
+  return false;
+};
+
+Character.prototype.weaponEffect = function () {
+  var audio = new Audio("assets/"+ gameAssets.gameTheme +"/sounds/" + this.weaponEffects[Math.floor(Math.random() * this.weaponEffects.length)].toString());
+  audio.volume = 0.2;
+  return audio;
+};
+
+Character.prototype.updateSelf = function () {
+  this.$me.children('.img-responsive').attr("src", this.imgpath).attr("alt", this.name);
+  this.$me.children('.creature-name').text(this.name);
+}
 
 function GameBoard(theme, backgroundsArray) {
   this.gameTheme = theme;
